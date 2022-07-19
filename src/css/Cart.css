@@ -1,0 +1,387 @@
+.main-cart {
+    width: 80%;
+    margin: auto;
+    display: flex;
+}
+
+.main-cart .list-product-cart {
+    width: 65%;
+    color: #333647;
+    margin-top: 43px;
+}
+
+.main-cart .list-product-cart .title-cart {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 30px;
+}
+
+.main-cart .list-product-cart .table-list-product-cart {
+    width: 95%;
+    margin-top: 51px;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-name-column {
+    display: flex;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 23px;
+    color: #333647;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .line {
+    border-bottom: 1px solid #ACAFC3;
+    width: 100%;
+    margin-top: 21px;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product {
+    display: flex;
+    margin-top: 32px;
+    height: 139px;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .img-name-product {
+    display: flex;
+    width: 44%;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .img-name-product img {
+    width: 40%;
+
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .img-name-product .name-product {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 30px;
+    color: #000000;
+    width: 55%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .amount-product {
+    width: 22%;
+
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .amount-product .btn-amount-product {
+    border: 1px solid #ACAFC3;
+    height: 60px;
+    width: 70%;
+    display: flex;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .amount-product .btn-amount-product .number {
+    margin: auto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 25px;
+    color: #000000;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .amount-product .btn-amount-product .add {
+    margin: auto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 33.9231px;
+    line-height: 41px;
+    color: #7C82A1;
+
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .temporary-price {
+    width: 22%;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 25px;
+    letter-spacing: 0.05em;
+    color: #DBAA53;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .delete {
+    width: 12%;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 25px;
+    letter-spacing: 0.05em;
+    text-decoration-line: underline;
+    color: #7C82A1;
+    text-align: right;
+}
+
+.main-cart .price-product-cart {
+    width: 35%;
+}
+
+.main-cart .price-product-cart .table-price {
+    width: 100%;
+    height: 622px;
+    background: #F3F4F6;
+    margin-top: 64px;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail {
+    padding: 65px 42px;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail .title-price {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 30px;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail .row-table-price {
+    display: flex;
+    margin-top: 60px;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail .row-table-price .title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail .row-table-price .price {
+    align-self: self-start;
+    margin-left: auto;
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 25px;
+    letter-spacing: 0.05em;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail .row-table-price .contact-to-know-price {
+    align-self: self-start;
+    margin-left: auto;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    color: #ACAFC3;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail .add-discount-code {
+    width: 100%;
+    display: flex;
+    margin-top: 43px;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail .add-discount-code .discount-code {
+    width: 70%;
+    border: 1px solid #F3F4F6;
+    height: 56px;
+    outline: none;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    color: #ACAFC3;
+    padding: 18px 20px;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail .add-discount-code .btn-add-code {
+    width: 30%;
+    background: #000000;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    color: #FFFFFF;
+}
+
+.main-cart .price-product-cart .table-price .table-price-detail .btn-pay {
+    width: 100%;
+    background: linear-gradient(180deg, #DBAA53 0%, #E39100 100%);
+    border: none;
+    height: 73px;
+    margin-top: 25px;
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 25px;
+    color: #FFFFFF;
+}
+
+.main-cart .list-product-cart .table-list-product-cart .row-product .img-name-product .name-product .delete-mobile {
+    display: none;
+}
+
+/* Mobile: width < 740px */
+@media only screen and (max-width: 46.1875em) {
+    .main-cart {
+        width: 90%;
+        display: block;
+        margin-top: 0px;
+    }
+
+    .main-cart .list-product-cart {
+        width: 100%;
+    }
+
+    .main-cart .price-product-cart {
+        width: 100%;
+    }
+
+    .main-cart .price-product-cart .table-price .table-price-detail {
+        padding: 15px 22px;
+    }
+
+    .main-cart .price-product-cart .table-price .table-price-detail .title-price {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+    }
+
+    .main-cart .price-product-cart .table-price .table-price-detail .row-table-price .title {
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 13px;
+    }
+
+    .main-cart .price-product-cart .table-price .table-price-detail .row-table-price .price {
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 16px;
+        letter-spacing: 0.05em;
+    }
+
+    .main-cart .price-product-cart .table-price .table-price-detail .row-table-price .contact-to-know-price {
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 13px;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product {
+        margin-top: 14px;
+        height: 47.79px;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product .img-name-product {
+        width: 50%;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product .img-name-product .name-product {
+        font-weight: 600;
+        font-size: 9px;
+        line-height: 11px;
+        text-align: left;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-name-column {
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 13px
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product .temporary-price {
+        font-weight: 600;
+        font-size: 9px;
+        line-height: 11px;
+        width: 25%;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product .amount-product .btn-amount-product {
+        height: 20.63px;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product .amount-product .btn-amount-product .number {
+        font-weight: 500;
+        font-size: 7.2195px;
+        line-height: 9px;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product .amount-product .btn-amount-product .add {
+        font-weight: 400;
+        font-size: 11.6623px;
+        line-height: 14px;
+    }
+
+    .main-cart .list-product-cart .title-cart {
+        font-weight: 400;
+        font-size: 11.6623px;
+        line-height: 14px;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product .delete {
+        display: none;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-name-column .product {
+        width: 50% !important;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-name-column .name-column {
+        width: 25% !important;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product .amount-product {
+        width: 25%;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .float-right {
+        text-align: right;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart {
+        width: 100%;
+        margin-top: 24px;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .line {
+        margin-top: 12px;
+    }
+
+    .main-cart .list-product-cart .table-list-product-cart .row-product .img-name-product .name-product .delete-mobile {
+        display: block;
+        font-weight: 500;
+        font-size: 9px;
+        line-height: 11px;
+        letter-spacing: 0.05em;
+        text-decoration-line: underline;
+        color: #7C82A1;
+    }
+
+    .main-cart .price-product-cart .table-price .table-price-detail .add-discount-code {
+        margin-top: 21px;
+    }
+
+    .main-cart .price-product-cart .table-price .table-price-detail .add-discount-code .discount-code {
+        height: 36.1px;
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 13px;
+        padding: 11px 15px;
+    }
+
+    .main-cart .price-product-cart .table-price .table-price-detail .add-discount-code .btn-add-code {
+        height: 32.23px;
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 13px;
+    }
+
+    .main-cart .price-product-cart .table-price .table-price-detail .btn-pay {
+        margin-top: 18.9px;
+        height: 47.06px;
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 16px;
+    }
+    .main-cart .price-product-cart .table-price{
+        height: 325px;
+    }
+    .main-cart .price-product-cart .table-price .table-price-detail .row-table-price{
+        margin-top: 23px;
+    }
+    .main-cart .price-product-cart .table-price .table-price-detail .line-mobile{
+        border-bottom: 0.644695px solid #ACAFC3;
+        width: 100%;
+        margin-top: 13px;
+    }
+}

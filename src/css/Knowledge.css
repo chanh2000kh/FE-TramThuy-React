@@ -1,0 +1,200 @@
+.main-knowledge {
+    width: 80%;
+    margin: auto;
+    display: flex;
+}
+
+.main-knowledge .main-knowledge-column1 {
+    width: 25%;
+}
+
+.main-knowledge .main-knowledge-column1 .card {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    height: 131px;
+}
+
+.main-knowledge .main-knowledge-column1 .card img {
+    width: 50%;
+}
+
+.main-knowledge .main-knowledge-column1 .card .title {
+    width: 50%;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13.981px;
+    line-height: 17px;
+    letter-spacing: 0.1em;
+    color: #000000;
+}
+
+.main-knowledge .main-knowledge-column1 .card img {
+    width: 50%;
+}
+
+.main-knowledge .main-knowledge-column1 .related-product-table {
+    width: 90%;
+    background: #F3F4F6;
+    padding: 24.5px 24.5px;
+}
+
+.main-knowledge .main-knowledge-column1 .related-product-table .related-product-table-title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20.4128px;
+    line-height: 24px;
+    text-decoration-line: underline;
+    color: #000000;
+}
+
+.main-knowledge .main-knowledge-column1 .related-product-table .card-table {
+    width: 100%;
+    background: #FFFFFF;
+    padding: 2% 2%;
+    margin-top: 24.5px;
+}
+
+.main-knowledge .main-knowledge-column1 .related-product-table .card-table img {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.main-knowledge .main-knowledge-column1 .related-product-table .card-table .title-table {
+    margin-top: 13.06;
+    width: 100%;
+    font-weight: 500;
+    font-size: 17.1468px;
+    line-height: 21px;
+    text-align: center;
+    color: #22242F;
+}
+
+.main-knowledge .main-knowledge-column1 .related-product-table .card-table .price-table {
+    margin-top: 12.48;
+    width: 100%;
+    font-weight: 500;
+    font-size: 13.8807px;
+    line-height: 17px;
+    color: #22242F;
+    text-align: center;
+}
+
+.main-knowledge .main-knowledge-column2 {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.main-knowledge .main-knowledge-column2 .card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 36px;
+}
+
+.main-knowledge .main-knowledge-column2 .card img {
+    width: 30%;
+}
+
+.main-knowledge .main-knowledge-column2 .card .box {
+    width: 65%;
+    margin-left: 5%;
+}
+
+.main-knowledge .main-knowledge-column2 .card .box .title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+    color: #000000
+}
+
+.main-knowledge .main-knowledge-column2 .card .box .detail {
+    margin-top: 17px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 20px;
+    color: #7C82A1;
+}
+
+.main-knowledge .main-knowledge-column2 .line {
+    width: 100%;
+    border-bottom: 0.5px solid #ACAFC3;
+    margin-top: 36px;
+}
+
+.main-knowledge .main-knowledge-column2 .number-page {
+    display: flex;
+    width: 40%;
+    margin: auto;
+    margin-top: 60px;
+}
+
+.main-knowledge .main-knowledge-column2 .number-page .number {
+    margin: auto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    letter-spacing: -0.02em;
+    color: #000000;
+}
+
+.main-knowledge .main-knowledge-column2 .number-page .next {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    letter-spacing: -0.02em;
+    color: #000000;
+}
+
+/* Mobile: width < 740px */
+@media only screen and (max-width: 46.1875em) {
+    .main-knowledge .main-knowledge-column1 {
+        display: none;
+    }
+
+    .main-knowledge {
+        width: 90%;
+    }
+
+    .main-knowledge .main-knowledge-column2 {
+        width: 100%;
+    }
+
+    .main-knowledge .main-knowledge-column2 .card .box .title {
+        font-weight: 500;
+        font-size: 12.6984px;
+        line-height: 15px;
+    }
+
+    .main-knowledge .main-knowledge-column2 .card .box .detail {
+        font-weight: 400;
+        font-size: 6.74603px;
+        line-height: 8px;
+    }
+
+    .main-knowledge .main-knowledge-column2 .line {
+        margin-top: 14.29px;
+    }
+
+    .main-knowledge .main-knowledge-column2 .card {
+        margin-top: 14.29px;
+    }
+
+    .main-knowledge .main-knowledge-column2 .number-page .number {
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: -0.02em;
+    }
+
+    .main-knowledge .main-knowledge-column2 .number-page .next {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: -0.02em;
+    }
+}

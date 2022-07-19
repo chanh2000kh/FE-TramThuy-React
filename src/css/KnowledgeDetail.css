@@ -1,0 +1,307 @@
+.main-knowledge-detail {
+    width: 80%;
+    margin: auto;
+    display: flex;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column1 {
+    width: 25%;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column1 .related-product-table {
+    width: 90%;
+    background: #F3F4F6;
+    padding: 24.5px 24.5px;
+    margin-top: 32px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column1 .related-product-table .related-product-table-title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20.4128px;
+    line-height: 24px;
+    text-decoration-line: underline;
+    color: #000000;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column1 .related-product-table .card-table {
+    width: 100%;
+    background: #FFFFFF;
+    padding: 2% 2%;
+    margin-top: 24.5px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column1 .related-product-table .card-table img {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column1 .related-product-table .card-table .title-table {
+    margin-top: 16px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 17.1468px;
+    line-height: 21px;
+    text-align: center;
+    color: #22242F;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column1 .related-product-table .card-table .price-table {
+    margin-top: 16px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 13.8807px;
+    line-height: 17px;
+    color: #22242F;
+    text-align: center;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 {
+    width: 75%;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+    color: #000000;
+    margin-top: 31px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .time-author {
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: #555A77;
+    margin-top: 31px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .line {
+    width: 100%;
+    margin-top: 41px;
+    border-bottom: 1px solid #ACAFC3;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .detail {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 150%;
+    letter-spacing: 0.05em;
+    color: #000000;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .detail p {
+    margin-top: 14px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .detail img {
+    width: 100%;
+    margin-top: 14px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .list-icons {
+    display: flex;
+    align-items: center;
+    width: 20%;
+    margin-top: 56px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .tag {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: #7C82A1;
+    margin-top: 46px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .tag i {
+    color: #000000;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .related-posts {
+    display: flex;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .related-posts .related-posts-title {
+    width: 30%;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 21px;
+    line-height: 25px;
+    color: #44485F;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .related-posts .related-posts-line {
+    width: 70%;
+    border-bottom: 1px solid #7C82A1;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list {
+    display: flex;
+    margin-top: 44px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list .card {
+    width: 32%;
+    margin: auto;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list .card img {
+    width: 100%;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list .card .title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 25px;
+    color: #000000;
+    margin-top: 35px;
+}
+
+.main-knowledge-detail .main-knowledge-detail-column2 .line-mobile {
+    display: none;
+}
+.knowledge-detail-list-product {
+    display: none;
+}
+
+/* Mobile: width < 740px */
+@media only screen and (max-width: 46.1875em) {
+    .main-knowledge-detail .main-knowledge-detail-column1 {
+        display: none;
+    }
+
+    .main-knowledge-detail {
+        width: 90%;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 {
+        width: 100%;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 .title {
+        font-weight: 700;
+        font-size: 21px;
+        line-height: 150%;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 .time-author {
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+        margin-top: 15px;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 .line {
+        width: 50%;
+        margin-top: 23px;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 .detail {
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 150%;
+        letter-spacing: 0.05em;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 .list-icons {
+        width: 40%;
+        margin-top: 24px;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 .line-mobile {
+        width: 50%;
+        margin-top: 50px;
+        border-bottom: 1px solid #ACAFC3;
+        display: block;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 .tag {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        margin-top: 23px;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 .related-posts {
+        display: none;
+    }
+
+    .main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list {
+        display: none;
+    }
+
+    .list-chat {
+        display: none;
+    }
+
+    .knowledge-detail-list-product {
+        margin-top: 60px;
+        width: 95%;
+        margin: auto;
+        display: block;
+    }
+    .knowledge-detail-list-product .list-product {
+        margin-top: 18px;
+        justify-content: left;
+    }
+    .knowledge-detail-list-product .title {
+        display: flex;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 16px;
+        color: #22242F;
+    }
+    .knowledge-detail-list-product .line {
+        margin-top: 8px;
+    }
+    .knowledge-detail-list-product .line .line-yellow {
+        width: 24%;
+        border-bottom: 3px solid #DBAA53;
+    }
+    .knowledge-detail-list-product .line .line-silver {
+        border-bottom: 1px solid #ACAFC3;
+    }
+    .knowledge-detail-list-product .list-product .list-product-card {
+        border: 1px solid #ACAFC3;
+        width: 100%;
+        height: 288px;
+        color: #22242F;
+        margin: auto;
+    }
+    .knowledge-detail-list-product .list-product .list-product-card:hover {
+        color: #FFFFFF;
+        background-color: #000000;
+    }
+    .knowledge-detail-list-product .list-product .list-product-card img {
+        width: 95%;
+        display: block;
+        margin: 0 auto;
+        margin-top: 10px;
+        height: 210px;
+        margin: 2% 2% 0 2%;
+    }
+    .knowledge-detail-list-product .list-product .list-product-card .title-product {
+        font-weight: 500;
+        font-size: 15.75px;
+        line-height: 19px;
+        text-align: center;
+        margin-top: 12px;
+        font-style: normal;
+    }
+    .knowledge-detail-list-product .list-product .list-product-card .price-product {
+        font-weight: 500;
+        font-size: 12.75px;
+        line-height: 15px;
+        text-align: center;
+        margin-top: 16px;
+        font-style: normal;
+    }
+}
