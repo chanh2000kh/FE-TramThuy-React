@@ -1,5 +1,6 @@
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import AboutUS from "./pages/AboutUS";
 import {
   Routes,
   Route,
@@ -9,6 +10,7 @@ function App() {
     <>
     <Routes>
       <Route path="/" element={<Home />}/>
+      <Route path="/aboutus" element={<AboutUS />}/>
     </Routes>
     <Footer></Footer>
     </>

@@ -24,7 +24,7 @@ $(document).ready(function () {
     nav: true,
     dots: false,
     navText: [
-      '<div class="home-btn-left-mobile home-btn-next-page-mobile" style="transform: translateY(-191px);"><img class="img-btn-left" src="./img/Vector-left.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+      '<div class="home-btn-left-mobile home-btn-next-page-mobile" style="transform: translateY(-190.5px);"><img class="img-btn-left" src="./img/Vector-left.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
       '<div class="home-btn-right-mobile home-btn-next-page-mobile" style="transform: translateY(-210px);"><img class="img-btn-right" src="./img/Vector-right.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
     ],
     items: 1.4,
@@ -113,4 +113,15 @@ $(document).ready(function () {
     if (currentIndex > listHomeGallery.length - 1) currentIndex = 0;
     updateyContainerByIndex();
   });
+
+  $(document).ready(function () {
+    $('.list-new-product-about-us').owlCarousel({
+        center: true,
+        items: 2.7,
+        loop: true,
+        margin: 30,
+        // autoplay: true,
+        // autoplayTimeout: 3000,
+    });
+});
 });

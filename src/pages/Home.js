@@ -1,9 +1,8 @@
 import "../css/Home.css";
 // import { Helmet } from "react-helmet";
 // import { useEffect } from "react";
-
+import { Link } from "react-router-dom";
 function Home() {
-
   return (
     <>
       <input
@@ -1182,11 +1181,13 @@ function Home() {
               src={require("../img/Mask group (1).png")}
               alt=""
             />
-            <img
-              className="img-about-us2"
-              src={require("../img/Asset 4@2x 1.png")}
-              alt=""
-            />
+            <Link to="/aboutus">
+              <img
+                className="img-about-us2"
+                src={require("../img/Asset 4@2x 1.png")}
+                alt=""
+              />
+            </Link>
             <img
               className="img-about-us4"
               src={require("../img/Asset 5@2x 1.png")}
@@ -1200,6 +1201,7 @@ function Home() {
               Felis, ipsum consectetur amet mattis massa. Nunc feugiat nunc
               massa diam. Morbi vel ipsum amet tincidunt nascetur metus, in.
             </p>
+
             <button className="btn-about-us">KHÁM PHÁ</button>
             <img
               className="img-about-us3"
