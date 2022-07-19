@@ -130,11 +130,13 @@ function Header() {
             <Link to="/">
               <img className="logo" src={require("../img/logo-yellow.png")} />
             </Link>
-            <img
-              className="logo-mobile"
-              src={require("../img/Mask group logo black.png")}
-              alt=""
-            />
+            <Link to="/">
+              <img
+                className="logo-mobile"
+                src={require("../img/Mask group logo black.png")}
+                alt=""
+              />
+            </Link>
             <div className="header">
               <div className="header1">
                 TRẦM - NHANG

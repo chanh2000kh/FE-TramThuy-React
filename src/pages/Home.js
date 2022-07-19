@@ -1201,8 +1201,9 @@ function Home() {
               Felis, ipsum consectetur amet mattis massa. Nunc feugiat nunc
               massa diam. Morbi vel ipsum amet tincidunt nascetur metus, in.
             </p>
-
-            <button className="btn-about-us">KHÁM PHÁ</button>
+            <Link to="/aboutus">
+              <button className="btn-about-us">KHÁM PHÁ</button>
+            </Link>
             <img
               className="img-about-us3"
               src={require("../img/Mask group (2).png")}
