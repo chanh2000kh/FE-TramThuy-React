@@ -72,7 +72,7 @@ function Home() {
         </ul>
       </div>
       <label htmlFor="nav-mobile-input" className="nav__overlay-mobile"></label>
-      <div className="home-header--profile">
+      <div className="home-header--profile" style={{ display: "block"}}>
         <div className="home-header--profile__contact">
           <div className="home-header--profile--email">
             <img
