@@ -59,7 +59,7 @@ function Header() {
             <img
               src={require("../img/akar-icons_instagram-fill.png")}
               style={{ transform: "scale(0.7)", margin: "auto" }}
-              all=""
+              alt=""
             />
             <img
               src={require("../img/akar-icons_youtube-fill.png")}
@@ -127,16 +127,16 @@ function Header() {
                 alt=""
               />
             </label>
-            <Link to="/">
-              <img className="logo" src={require("../img/logo-yellow.png")} />
-            </Link>
-            <Link to="/">
+            <a href="/">
+              <img className="logo" src={require("../img/logo-yellow.png")} alt=""/>
+            </a>
+            <a href="/">
               <img
                 className="logo-mobile"
                 src={require("../img/Mask group logo black.png")}
                 alt=""
               />
-            </Link>
+            </a>
             <div className="header">
               <div className="header1">
                 TRẦM - NHANG
@@ -175,6 +175,9 @@ function Header() {
         <div className="title" style={{ marginLeft: "12px" }}>
           Trang sức
         </div>
+        {/* <div class="title1" style={{margin:  "auto"}}>
+            CHECK OUT
+        </div> */}
       </div>
     </>
   );

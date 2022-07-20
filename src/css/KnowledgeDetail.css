@@ -144,6 +144,7 @@
 .main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list {
     display: flex;
     margin-top: 44px;
+    margin-bottom: 174px;
 }
 
 .main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list .card {

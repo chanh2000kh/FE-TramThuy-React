@@ -116,6 +116,7 @@
     width: 80%;
     margin: 0 auto;
     display: flex;
+    margin-bottom: 174px;
 }
 
 .main-all .column-filter {
@@ -552,7 +553,7 @@ input[type="range"]::-moz-range-thumb {
     flex-wrap: wrap;
     position: absolute;
     right: 15px;
-    transform: translateY(-70%);
+    transform: translateY(-120%);
 }
 
 .list-chat .chat {

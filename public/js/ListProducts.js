@@ -12,7 +12,9 @@
 // range.addEventListener('input', setValue);
 
 
-const rangeInput = document.querySelectorAll(".range-input input"),
+
+$(document).ready(function () {
+  const rangeInput = document.querySelectorAll(".range-input input"),
   priceInput = document.querySelectorAll(".price-input input"),
   range1 = document.querySelector(".slider .progress"),
   rangeVLeft = document.getElementById('rangeV-price-left'),
@@ -63,4 +65,5 @@ rangeInput.forEach(input => {
       rangeVRight.style.left = `calc(${maxVal/100}% + (${newPositionRight/100}px))`;
     }
   });
+});
 });
