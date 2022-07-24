@@ -6,7 +6,10 @@
     text-decoration: none;
     list-style: none;
 }
-
+.disable {
+    color: #FFFFFF;
+    margin: auto;
+ }
 .home-header--profile {
     background: #1A0E0E;
     height: 68px;
@@ -91,7 +94,7 @@
     position: absolute;
     right: 60.5px;
     bottom: 60.5px;
-    z-index: 15;
+    z-index: 2;
     display: flex;
     /* justify-content: center; */
     padding-left: 0;
@@ -131,6 +134,7 @@
 
 .home-header .home-header--data .cloud1 {
     position: absolute;
+    z-index: 0;
 }
 
 .home-header .home-header--data .cloud2 {
@@ -152,6 +156,9 @@
     display: flex;
     right: 42.83px;
     top: 37px;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
 
 .home-header .home-header--data .user .trans {
@@ -177,7 +184,31 @@
 .home-header--data .header .header1 {
     margin: auto;
 }
-
+.home-header--data .header .header1 .sub-menu {
+    display: none;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: #7C82A1;
+    z-index: 4;
+}
+.home-header--data .header .header1 .sub-menu li{
+    border: 0.5px solid #ACAFC3;
+    background: #FFFFFF;
+    padding: 15px 15px;
+}
+.home-header--data .header .header1 .sub-menu li:hover{
+    color: #fff;
+    background:#000000;
+}
+.home-header--data .header .header1:hover{
+    color: #DBAA53;
+}
+.home-header--data .header .header1:hover > .sub-menu{
+    display: block;
+    position: absolute;
+}
 .home-type-product1 {
     display: flex;
     align-items: center;
@@ -527,17 +558,25 @@
     display: flex;
     margin-top: 59px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .home-list-product .list-product .list-product-card {
     border: 1px solid #ACAFC3;
     width: 23%;
     color: #22242F;
-    margin: auto;
+    /* margin: auto; */
+    margin-left: 1.5%;
     padding-bottom: 10px;
 }
 
+.home-list-product .list-product .list-product-card a {
+    color: #22242F;
+}
+.home-list-product .list-product .list-product-card a:hover {
+    color: #FFFFFF;
+    background-color: #000000;
+}
 .home-list-product .list-product .list-product-card:hover {
     color: #FFFFFF;
     background-color: #000000;
@@ -548,6 +587,7 @@
     display: block;
     margin: 0 auto;
     margin-top: 10px;
+    height: 280px;
 }
 
 .home-list-product .list-product .list-product-card .title-product {
@@ -1205,16 +1245,14 @@
         margin-top: 25px;
         display: flex;
     }
-    .home-nav-mobile .home-nav-list-mobile li .check-1{
+    .home-nav-mobile .home-nav-list-mobile .check-1{
         display: none;
     }
-    .home-nav-mobile .home-nav-list-mobile .list-1{
-        
-        background:#DEDEDE;
-        bottom: 1px;
+    .home-nav-mobile .home-nav-list-mobile .list-1{    
+        display: none;
     }
-    .home-nav-mobile .home-nav-list-mobile li .check-1:checked~.home-nav-mobile .home-nav-list-mobile .list-1{
-        height: 20px;
+    .home-nav-mobile .home-nav-list-mobile .check-1:checked+.list-1{
+        display: block;
     }
     .home-nav-mobile .home-nav-list-mobile .line {
         border-bottom: 0.5px solid #F3F4F6;
@@ -1800,6 +1838,7 @@
         width: 100%;
         background: #F3F4F6;
         display: block;
+        margin-top: 60px;
     }
 
     .home-main .home-instagram .home-instagram-title {
@@ -1856,7 +1895,6 @@
     }
 
     .home-footer .home-footer-information {
-        height: 670px;
         background: url(../img/Rectangle\ 115.png);
         display: block;
     }
@@ -1934,21 +1972,65 @@
     }
 
     .home-footer .home-footer-information .home-footer-information-column3-mobile .products .footer-list-products-mobile {
-        height: 0px;
-        transition: height 0.25s ease-in;
-        background: #000000;
-        display: block;
-    }
-
-    .home-footer .home-footer-information .home-footer-information-column3-mobile .products .title-products .check-listproducts {
         display: none;
     }
 
-    .home-footer .home-footer-information .home-footer-information-column3-mobile .products .title-products .check-listproducts:checked~.footer-list-products-mobile {
-        height: 100px !important;
-        display: block;
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .products .check-listproducts {
+        display: none;
     }
 
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .products .check-listproducts:checked+.footer-list-products-mobile {
+        display: block;
+    }
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .products .footer-list-products-mobile li{
+        font-size: 10px;
+        margin-top: 10px;
+    }
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .shops .footer-list-products-mobile {
+        display: none;
+    }
+
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .shops .check-listproducts {
+        display: none;
+    }
+
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .shops .check-listproducts:checked+.footer-list-products-mobile {
+        display: block;
+    }
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .shops .footer-list-products-mobile li{
+        font-size: 10px;
+        margin-top: 10px;
+    }
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .laws .footer-list-products-mobile {
+        display: none;
+    }
+
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .laws .check-listproducts {
+        display: none;
+    }
+
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .laws .check-listproducts:checked+.footer-list-products-mobile {
+        display: block;
+    }
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .laws .footer-list-products-mobile li{
+        font-size: 10px;
+        margin-top: 10px;
+    }
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .about-us .footer-list-products-mobile {
+        display: none;
+    }
+
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .about-us .check-listproducts {
+        display: none;
+    }
+
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .about-us .check-listproducts:checked+.footer-list-products-mobile {
+        display: block;
+    }
+    .home-footer .home-footer-information .home-footer-information-column3-mobile .about-us .footer-list-products-mobile li{
+        font-size: 10px;
+        margin-top: 10px;
+    }
     .home-footer .home-footer-information .home-footer-information-column1 {
         display: none;
     }

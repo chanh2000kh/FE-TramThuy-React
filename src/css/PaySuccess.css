@@ -35,8 +35,8 @@
     width: 80%;
     margin: auto;
     border: 1px solid #ACAFC3;
-    height: 1051px;
     margin-top: 71px;
+    padding-bottom: 10px;
 }
 
 .main-pay-success .pay-success-detail .img-success {

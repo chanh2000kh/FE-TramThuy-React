@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-let API_URL="https://webbanhangapitienlam.azurewebsites.net";
+// let API_URL="http://localhost:5000";
+let API_URL="https://be-tramthuy-nodejs.herokuapp.com";
 
 export default function callApi(endpoint, method='GET',body){
     return axios({

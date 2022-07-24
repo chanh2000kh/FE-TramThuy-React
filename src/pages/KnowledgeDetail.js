@@ -1,6 +1,8 @@
 import Header from "../components/Header";
 import "../css/KnowledgeDetail.css";
+
 function KnowledgeDetail() {
+ 
   return (
     <>
       <Header></Header>

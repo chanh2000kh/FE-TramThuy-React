@@ -3,7 +3,7 @@ import "../css/Knowledge.css";
 function Knowledge() {
   return (
     <>
-      <Header></Header>
+      <Header id={4}></Header>
       <img
         className="rim-right-silver"
          src={require("../img/Mask group.png")}

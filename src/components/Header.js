@@ -1,7 +1,55 @@
 import "../css/ListProduct.css";
 import "../css/AboutUs.css";
 import { Link } from "react-router-dom";
-function Header() {
+import { useRef, useEffect } from "react";
+function Header(body) {
+  // const myref = useRef(null);
+  useEffect(() => {
+    // 👇️ use a ref (best)
+    // const el2 = myref.current;
+    // console.log(el2);
+
+    // 👇️ use document.getElementById()
+    // should only be used when you can't set a ref prop on the element
+    // (you don't have access to the element)
+    switch (body.id) {
+      case 0:
+        {
+          const log = document.getElementById("headerincense");
+          log.style.borderBottom = "3px solid #000000";
+        }
+        break;
+      case 1:
+        {
+          const log = document.getElementById("headerjewels");
+          log.style.borderBottom = "3px solid #000000";
+        }
+        break;
+      case 2:
+        {
+          const log = document.getElementById("headerstatue");
+          log.style.borderBottom = "3px solid #000000";
+        }
+        break;
+      case 3:
+        {
+          const log = document.getElementById("headerurn");
+          log.style.borderBottom = "3px solid #000000";
+        }
+        break;
+      case 4:
+        {
+          const log = document.getElementById("headerknowledge");
+          log.style.borderBottom = "3px solid #000000";
+        }
+        break;
+      case 5: {
+        const log = document.getElementById("headeraboutus");
+        log.style.borderBottom = "3px solid #000000";
+      }
+    }
+  }, []);
+
   return (
     <>
       <input
@@ -19,9 +67,8 @@ function Header() {
           />
         </label>
         <ul className="home-nav-list-mobile">
-          <li className="">
-            <input className="check-1" type="checkbox" name="" id="check-1" />
-            <div className="">TRẦM - NHANG</div>
+        <li className="">
+            <div className="">TRANG SỨC</div>
             <label
               htmlFor="check-1"
               style={{
@@ -36,19 +83,101 @@ function Header() {
               />
             </label>
           </li>
-          <div className="list-1"></div>
+          <input className="check-1" type="checkbox" name="" id="check-1" />
+          <div className="list-1">
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=1"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng tay trầm tốc vương</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=2"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng tay trầm sánh chìm</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=3"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng trầm hương Việt Nam</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=4"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng trầm hương rừng Lào</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=5"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng trầm rừng cao cấp</li>
+            </a>
+          </div>
           <div className="line"></div>
-          <li className="">TRANG SỨC</li>
+          <li className="">
+            <div className="">TRẦM - NHANG</div>
+            <label
+              htmlFor="check-2"
+              style={{
+                alignSelf: "self-start",
+                marginLeft: "auto",
+                marginRight: "10px",
+              }}
+            >
+              <img
+                src={require("../img/dashicons_arrow-left-alt2-mobile.png")}
+                alt=""
+              />
+            </label>
+          </li>
+          <input className="check-1" type="checkbox" name="" id="check-2" />
+          <div className="list-1">
+            <a
+              href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=1"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Nhang trầm không tăm</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=2"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Nhang khoanh trầm hương</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=3"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Nụ rầm hương</li>
+            </a>
+          </div>
           <div className="line"></div>
-          <li className="">TƯỢNG</li>
+          <a
+            href="/listproduct?id=62cd7c4e0d2a3b3e78ed4434"
+            className="disable"
+          >
+            <li className="">TƯỢNG</li>
+          </a>
           <div className="line"></div>
-          <li className="">LƯ XÔNG TRẦM</li>
+          <a
+            href="/listproduct?id=62cd7cbf0d2a3b3e78ed443c"
+            className="disable"
+          >
+            <li className="">LƯ XÔNG TRẦM</li>
+          </a>
           <div className="line"></div>
           <li className="">HÀNG MỚI</li>
           <div className="line"></div>
-          <li className="">KIẾN THỨC</li>
+          <a href="/knowledge" className="disable">
+            <li className="">KIẾN THỨC</li>
+          </a>
           <div className="line"></div>
-          <li className="">LIÊN HỆ</li>
+          <a href="/aboutus" className="disable">
+            <li className="">LIÊN HỆ</li>
+          </a>
           <div className="line"></div>
           <div className="icons-mobile">
             <img
@@ -113,11 +242,13 @@ function Header() {
               alt=""
               style={{ marginLeft: "40.93px" }}
             />
-            <img
-              className="shoping"
-              src={require("../img/ant-design_shopping-outlined (1).png")}
-              alt=""
-            />
+            <a href="/cart">
+              <img
+                className="shoping"
+                src={require("../img/ant-design_shopping-outlined (1).png")}
+                alt=""
+              />
+            </a>
           </div>
           <div className="">
             <label htmlFor="nav-mobile-input">
@@ -127,9 +258,17 @@ function Header() {
                 alt=""
               />
             </label>
-            <a href="/">
-              <img className="logo" src={require("../img/logo-yellow.png")} alt=""/>
-            </a>
+
+            <div style={{ width: "211px", margin: "auto" }}>
+              <a href="/">
+                <img
+                  className="logo"
+                  src={require("../img/logo-yellow.png")}
+                  alt=""
+                ></img>
+              </a>
+            </div>
+
             <a href="/">
               <img
                 className="logo-mobile"
@@ -138,27 +277,93 @@ function Header() {
               />
             </a>
             <div className="header">
-              <div className="header1">
+              <div className="header1" id="headerincense">
                 TRẦM - NHANG
                 <ul className="sub-menu">
-                  <li>Vòng tay trầm tốc vương</li>
-                  <li>Vòng tay trầm tốc vương</li>
-                  <li>Vòng tay trầm tốc vương</li>
+                  <a
+                    href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=1"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Nhang trầm không tăm</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=2"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Nhang khoanh trầm hương</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=3"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Nụ rầm hương</li>
+                  </a>
                 </ul>
               </div>
-              <div className="header1">
+              <div className="header1" id="headerjewels">
                 TRANG SỨC
                 <ul className="sub-menu">
-                  <li>Vòng tay trầm tốc vương</li>
-                  <li>Vòng tay trầm tốc vương</li>
-                  <li>Vòng tay trầm tốc vương</li>
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=1"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng tay trầm tốc vương</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=2"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng tay trầm sánh chìm</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=3"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng trầm hương Việt Nam</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=4"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng trầm hương rừng Lào</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=5"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng trầm rừng cao cấp</li>
+                  </a>
                 </ul>
               </div>
-              <div className="header1">TƯỢNG</div>
-              <div className="header1">LƯ XÔNG TRẦM</div>
+              <a
+                href="/listproduct?id=62cd7c4e0d2a3b3e78ed4434"
+                style={{ color: "#000000", margin: "auto" }}
+              >
+                <div className="header1" id="headerstatue">
+                  TƯỢNG
+                </div>
+              </a>
+              <a
+                href="/listproduct?id=62cd7cbf0d2a3b3e78ed443c"
+                style={{ color: "#000000", margin: "auto" }}
+              >
+                <div className="header1" id="headerurn">
+                  LƯ XÔNG TRẦM
+                </div>
+              </a>
               <div className="header1">HÀNG MỚI</div>
-              <div className="header1">KIẾN THỨC</div>
-              <div className="header1">LIÊN HỆ</div>
+              <a href="/knowledge" style={{ color: "#000000", margin: "auto" }}>
+                <div className="header1" id="headerknowledge">
+                  KIẾN THỨC
+                </div>
+              </a>
+
+              <a href="/aboutus" style={{ color: "#000000", margin: "auto" }}>
+                <div className="header1" id="headeraboutus">
+                  LIÊN HỆ
+                </div>
+                {/* <div className="header1" id="header201" ref={myref}>LIÊN HỆ</div> */}
+              </a>
             </div>
           </div>
         </div>

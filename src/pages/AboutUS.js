@@ -2,7 +2,7 @@ import Header from "../components/Header";
 function AboutUS() {
     return (
       <>
-        <Header></Header>
+        <Header id={5}></Header>
         <div className="main-about-us">
         <div className="column-about-us1">
             <div className="card">

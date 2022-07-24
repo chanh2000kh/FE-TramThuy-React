@@ -1,6 +1,73 @@
 import Header from "../components/Header";
 import "../css/ProductDetail.css";
+import React from "react";
+import { useState, useEffect } from "react";
+import callApi from "../api/ApiSevice.js";
+import format from "../sevices/FormatPrice.js";
+const GetURLParameter = (sParam) => {
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split("&");
+  for (var i = 0; i < sURLVariables.length; i++) {
+    var sParameterName = sURLVariables[i].split("=");
+    if (sParameterName[0] === sParam) {
+      return sParameterName[1].toString();
+    }
+  }
+};
 function ProductDetail() {
+  const [product, setProduct] = React.useState({});
+  const [imgProduct, setImgProduct] = React.useState([]);
+  const [check, setCheck] = React.useState(0);
+  const [type, setType] = React.useState([]);
+  const [size, setSize] = React.useState([]);
+  const [price, setPrice] = React.useState(0);
+  const [amount, setAmount] = React.useState(1);
+  const [listCartLocal, setListCartLocal] = React.useState(
+    JSON.parse(localStorage.getItem("listCart")) || []
+  );
+  useEffect(() => {
+    const id = GetURLParameter("id")
+    callApi(`api/product/getOneProduct?id=${id}`, "GET")
+      .then((res) => {
+        setProduct(res.data.data);
+        setImgProduct(res.data.data.img);
+        setType(res.data.data.type);
+        setSize(res.data.data.size);
+        setPrice(res.data.data.price);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const addPrice = (n) => {
+    const total = Number(product.price) + Number(n);
+    setPrice(total);
+  };
+  const changeAmount = (n) => {
+    setAmount((prev) => prev + n);
+  };
+  const addCart = () => {
+    const newdata = {
+      idProduct: product._id,
+      amount: amount,
+      check: check,
+    };
+    var newListCart = listCartLocal
+    var duplicate = false
+    listCartLocal.some((data, i) => {
+       if (data.idProduct === product._id) {
+        duplicate = true
+        newListCart[i] = newdata
+        localStorage.setItem("listCart", JSON.stringify(listCartLocal));
+        return
+      }
+    });
+    if(duplicate == false){
+      newListCart.push(newdata)
+      localStorage.setItem("listCart", JSON.stringify(newListCart));
+    }
+    
+  };
   return (
     <>
       <Header></Header>
@@ -8,62 +75,51 @@ function ProductDetail() {
         className="rim-right-silver"
         src={require("../img/Mask group.png")}
         alt=""
-        style={{float: "right", width: "10%", marginTop: "43%"}}
+        style={{ float: "right", width: "10%", marginTop: "43%" }}
       />
       <img
         className="rim-left-silver"
         src={require("../img/Mask group left.png")}
         alt=""
-        style={{float: "left", width: "10%", marginTop: "43%"}}
+        style={{ float: "left", width: "10%", marginTop: "43%" }}
       />
       <div className="main-product-detail">
         <div className="product-detail">
-          <div className="product-detail-column1">
-            <img
-              src={require("../img/Rectangle 43.png")}
-              alt=""
-              style={{marginTop: "30px"}}
-            />
-            <img src={require("../img/Rectangle 43.png")} alt="" />
-            <img src={require("../img/Rectangle 43.png")} alt="" />
+          <div className="product-detail-column1" style={{ marginTop: "10px" }}>
+            {imgProduct.map((data) => {
+              return <img src={data} alt="" />;
+            })}
           </div>
           <div className="product-detail-column2">
             <div className="column1-img">
-              <img
-                className="img"
-                src={require("../img/Rectangle 43.png")}
-                alt=""
-              />
+              <img className="img" src={imgProduct[0]} alt="" />
               <div className="list-product-img-mobile">
-                <img
-                  src={require("../img/Rectangle 43.png")}
-                  alt=""
-                  style={{marginLeft: "0"}}
-                />
-                <img src={require("../img/Rectangle 43.png")} alt="" />
-                <img src={require("../img/Rectangle 43.png")} alt="" />
+                <img src={imgProduct[0]} alt="" style={{ marginLeft: "0" }} />
+                {imgProduct.map((data, index) => {
+                  if (index > 0) return <img src={data} alt="" />;
+                })}
               </div>
               <div className="list-icons">
                 <img
                   src={require("../img/eva_facebook-fill-yellow.png")}
                   alt=""
-                  style={{margin: "auto"}}
+                  style={{ margin: "auto" }}
                 />
                 <img
                   src={require("../img/akar-icons_instagram-fill-yellow.png")}
                   alt=""
-                  style={{margin: "auto"}}
+                  style={{ margin: "auto" }}
                 />
                 <img
                   src={require("../img/akar-icons_youtube-fill-yellow.png")}
                   alt=""
-                  style={{alignSelf: "self-start", marginLeft: "auto"}}
+                  style={{ alignSelf: "self-start", marginLeft: "auto" }}
                 />
               </div>
             </div>
             <div className="column2-detail">
               <div className="detail">
-                <div className="product-name">VÒNG TAY TRẦM HƯƠNG</div>
+                <div className="product-name">{product.name}</div>
                 <div className="row1">
                   <img
                     className="img-star"
@@ -71,61 +127,102 @@ function ProductDetail() {
                     alt=""
                   />
                   <div className="number-of-reviews">(23)</div>
-                  <div className="sold">Đã bán: 76</div>
+                  <div className="sold">Đã bán: {product.numberOfSold}</div>
                 </div>
-                <div className="product-price">900.000 VND</div>
+                <div className="product-price">{format(price)} VND</div>
                 <div className="row2">
-                  <div className="type">Loại:</div>
-                  <div className="box">
-                    <input
-                      className="radio-input"
-                      type="radio"
-                      id="type1"
-                      name="type"
-                      value="1"
-                    />
-                    <label htmlFor="type1" className="radio-label"></label>
-                    <label className="name-type" htmlFor="type1">
-                      I
-                    </label>
+                  {type.length > 0 && (
+                    <>
+                      <div className="type">Loại:</div>
+                      {type.map((data, i) => {
+                        return (
+                          <div className="box">
+                            <input
+                              className="radio-input"
+                              type="radio"
+                              id={"type" + i}
+                              checked={check == i}
+                              onChange={() => {
+                                setCheck(i);
+                                addPrice(data.priceAdd);
+                              }}
+                            />
+                            <label
+                              htmlFor={"type" + i}
+                              className="radio-label"
+                            ></label>
+                            <label className="name-type" htmlFor={"type" + i}>
+                              {data.typeName}
+                            </label>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
+                  {size.length > 0 && (
+                    <>
+                      <div className="type">Size:</div>
+                      {size.map((data, i) => {
+                        return (
+                          <div className="box">
+                            <input
+                              className="radio-input"
+                              type="radio"
+                              id={"type" + i}
+                              checked={check == i}
+                              onChange={() => {
+                                setCheck(i);
+                                addPrice(data.priceAdd);
+                              }}
+                            />
+                            <label
+                              htmlFor={"type" + i}
+                              className="radio-label"
+                            ></label>
+                            <label className="name-type" htmlFor={"type" + i}>
+                              {data.sizeName}
+                            </label>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
+                  <div className="stock">
+                    {product.numberOfRemain > 0 ? <>Còn hàng</> : <>Hết Hàng</>}
                   </div>
-                  <div className="box">
-                    <input
-                      className="radio-input"
-                      type="radio"
-                      id="type2"
-                      name="type"
-                      value="2"
-                    />
-                    <label htmlFor="type2" className="radio-label"></label>
-                    <label className="name-type" htmlFor="type2">
-                      II
-                    </label>
-                  </div>
-                  <div className="box">
-                    <input
-                      className="radio-input"
-                      type="radio"
-                      id="type3"
-                      name="type"
-                      value="3"
-                    />
-                    <label htmlFor="type3" className="radio-label"></label>
-                    <label className="name-type" htmlFor="type3">
-                      III
-                    </label>
-                  </div>
-                  <div className="stock">Còn hàng</div>
                 </div>
                 <div className="row3">
                   <div className="btn-amount-product">
-                    <div className="add" style={{transform: "translateY(-40%)"}}>
+                    <div
+                      className="add"
+                      style={{ transform: "translateY(-40%)" }}
+                      onClick={() => {
+                        if (amount > 1) changeAmount(-1);
+                      }}
+                    >
                       _
                     </div>
-                    <div className="number">2</div>
-                    <div className="add">+</div>
+                    <div className="number">{amount}</div>
+                    <div
+                      className="add"
+                      onClick={() => {
+                        if (amount < product.numberOfRemain) changeAmount(1);
+                      }}
+                    >
+                      +
+                    </div>
                   </div>
-                  <button className="bnt-add-cart">Thêm vào giỏ hàng</button>
+                  <button
+                    className="bnt-add-cart"
+                    onClick={() => {
+                      addCart();
+                      window.alert("Thêm vào giỏ hàng thanh công!");
+                      window.location = `https://fe-tram-thuy-react.vercel.app/cart`;
+                      // window.location = `http://localhost:3000/cart`;
+                    }}
+                  >
+                    Thêm vào giỏ hàng
+                  </button>
                 </div>
                 <div className="line"></div>
                 <div className="buy-call">
@@ -135,44 +232,56 @@ function ProductDetail() {
               </div>
               <div className="icons">
                 <div className="card">
-                  <div className="" style={{width: "100%", height: "76px"}}>
+                  <div className="" style={{ width: "100%", height: "76px" }}>
                     <img
                       src={require("../img/la_credit-card.png")}
                       alt=""
-                      style={{marginLeft: "50%", transform: "translateX(-50%)"}}
+                      style={{
+                        marginLeft: "50%",
+                        transform: "translateX(-50%)",
+                      }}
                     />
                   </div>
                   <div className="title">THANH TOÁN ONLINE</div>
                   <div className="title-small">an toàn và nhanh chóng</div>
                 </div>
                 <div className="card">
-                  <div className="" style={{width: "100%",height: "76px"}}>
+                  <div className="" style={{ width: "100%", height: "76px" }}>
                     <img
                       src={require("../img/Group 20.png")}
                       alt=""
-                      style={{marginLeft: "50%", transform: "translateX(-50%)"}}
+                      style={{
+                        marginLeft: "50%",
+                        transform: "translateX(-50%)",
+                      }}
                     />
                   </div>
                   <div className="title">ĐỔI TRẢ HÀNG</div>
                   <div className="title-small">30 ngày </div>
                 </div>
                 <div className="card">
-                  <div className="" style={{width: "100%",height: "76px"}}>
+                  <div className="" style={{ width: "100%", height: "76px" }}>
                     <img
                       src={require("../img/iconoir_delivery-truck.png")}
                       alt=""
-                      style={{marginLeft: "50%", transform: "translateX(-50%)"}}
+                      style={{
+                        marginLeft: "50%",
+                        transform: "translateX(-50%)",
+                      }}
                     />
                   </div>
                   <div className="title">SHIP TOÀN QUỐC</div>
                   <div className="title-small">3-5 ngày</div>
                 </div>
                 <div className="card">
-                  <div className="" style={{width: "100%",height: "76px"}}>
+                  <div className="" style={{ width: "100%", height: "76px" }}>
                     <img
                       src={require("../img/clarity_shield-check-line.png")}
                       alt=""
-                      style={{marginLeft: "50%", transform: "translateX(-50%)"}}
+                      style={{
+                        marginLeft: "50%",
+                        transform: "translateX(-50%)",
+                      }}
                     />
                   </div>
                   <div className="title">ĐẢM BẢO CHẤT LƯỢNG</div>
@@ -208,7 +317,7 @@ function ProductDetail() {
           htmlFor="describe"
           className="name name-describe-detail"
           id="name-describe-detail"
-          style={{marginLeft: "30%"}}
+          style={{ marginLeft: "30%" }}
         >
           MÔ TẢ
         </label>
@@ -247,7 +356,10 @@ function ProductDetail() {
               alt=""
             />
           </div>
-          <div className="line" style={{width: "90%", marginLeft: "auto"}}></div>
+          <div
+            className="line"
+            style={{ width: "90%", marginLeft: "auto" }}
+          ></div>
           <div className="question-title-answer">
             <p>
               Nhang trầm hương nụ là sản phẩm được sản xuất từ trầm hương; cụ
@@ -293,7 +405,7 @@ function ProductDetail() {
             <div className="title">SỬ DỤNG</div>
             <div className="detail">Nữ</div>
           </div>
-          <div className="more-detail" style={{marginTop: "30px"}}>
+          <div className="more-detail" style={{ marginTop: "30px" }}>
             Quà tặng cho người thân, bạn bè, đồng nghiệp
           </div>
           <div className="more-detail">
@@ -326,15 +438,19 @@ function ProductDetail() {
               <img
                 src={require("../img/Group 136.png")}
                 alt=""
-                style={{marginTop: "76px"}}
+                style={{ marginTop: "76px" }}
               />
               <div className="name-email">
                 <input
                   type="text"
                   placeholder="Tên hiển thị"
-                  style={{width: "35%"}}
+                  style={{ width: "35%" }}
                 />
-                <input type="email" placeholder="Email" style={{width: "60%"}} />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  style={{ width: "60%" }}
+                />
               </div>
               <textarea
                 className="add-write-review"
@@ -367,7 +483,7 @@ function ProductDetail() {
             </label>
           </div>
           <div className="row-review">
-            <div className="avatar" style={{marginTop: "15px"}}>
+            <div className="avatar" style={{ marginTop: "15px" }}>
               <img src={require("../img/Ellipse 10 (1).png")} alt="" />
             </div>
 
@@ -375,7 +491,7 @@ function ProductDetail() {
               <img src={require("../img/Group 34 (2).png")} alt="" />
               <div className="name-date">
                 <div className="name-review">Nguyen A.</div>
-                <div className="date-review" style={{color: "#ACAFC3"}}>
+                <div className="date-review" style={{ color: "#ACAFC3" }}>
                   23/02/2022
                 </div>
               </div>
@@ -394,7 +510,7 @@ function ProductDetail() {
               <img src={require("../img/Group 34 (2).png")} alt="" />
               <div className="name-date">
                 <div className="name-review">Nguyen A.</div>
-                <div className="date-review" style={{color: "#ACAFC3"}}>
+                <div className="date-review" style={{ color: "#ACAFC3" }}>
                   23/02/2022
                 </div>
               </div>
@@ -407,7 +523,14 @@ function ProductDetail() {
         </div>
       </div>
 
-      <div style={{background: "#F3F4F6", paddingTop: "40px", marginTop: "60px",paddingBottom: "20px"}}>
+      <div
+        style={{
+          background: "#F3F4F6",
+          paddingTop: "40px",
+          marginTop: "60px",
+          paddingBottom: "20px",
+        }}
+      >
         <div className="knowledge-detail-list-product">
           <div className="title">
             <h4 className="title-type-product">SẢN PHẨM LIÊN QUAN </h4>
@@ -444,7 +567,10 @@ function ProductDetail() {
         </div>
       </div>
 
-      <div className="new-product-about-us" style={{height: "704px", marginTop: "0"}}>
+      <div
+        className="new-product-about-us"
+        style={{ height: "704px", marginTop: "0" }}
+      >
         <div className="new-product-title">
           <div className="title">
             <div className="line"></div>

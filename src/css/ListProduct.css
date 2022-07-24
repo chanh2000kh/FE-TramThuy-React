@@ -30,6 +30,9 @@
     display: flex;
     right: 42.83px;
     top: 37px;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
 
 .header-all .header-all--data .user .search {
@@ -64,7 +67,8 @@
 .header-all .header-all--data .header .header1 {
     margin: auto;
     /* position: relative; */
-    
+    padding: 4px;
+    /* border-bottom: 3px solid #000000 */
 }
 
 .header-all .header-all--data .header .header1 .sub-menu {
@@ -432,13 +436,15 @@ input[type="range"]::-moz-range-thumb {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-content: flex-start;
+    min-height: 1500px;
 }
 
 .main-all .colum-list-products .products-list .card-product {
-    width: 33%;
+    width: 32%;
     border: 1px solid #ACAFC3;
-    margin: auto;
+    margin-left: 5px;
     margin-top: 35px;
 }
 

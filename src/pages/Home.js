@@ -1,8 +1,67 @@
 import "../css/Home.css";
+import callApi from "../api/ApiSevice.js";
 // import { Helmet } from "react-helmet";
-// import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useState, useEffect } from "react";
+// import { Link } from "react-router-dom";
+import format from "../sevices/FormatPrice.js";
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
 function Home() {
+  const [incense, setIncense] = React.useState([]);
+  const [incenseNext, setIncenseNext] = React.useState(true);
+  const [jewels, setJewels] = React.useState([]);
+  const [jewelsNext, setJewelsNext] = React.useState(true);
+  const [statue, setStatue] = React.useState([]);
+  const [statueNext, setStatueNext] = React.useState(true);
+  const [urn, setUrn] = React.useState([]);
+  const [urnNext, setUrnNext] = React.useState(true);
+  useEffect(() => {
+    callApi(
+      `api/product/getProductByTypeId?id=62cd7c7a0d2a3b3e78ed4438&limit=8&skip=1&min=0&max=10000000`,
+      "GET"
+    )
+      .then((res) => {
+        setIncense(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    callApi(
+      `api/product/getProductByTypeId?id=62cd7b3584e523f391176a97&limit=8&skip=1&min=0&max=10000000`,
+      "GET"
+    )
+      .then((res) => {
+        setJewels(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    callApi(
+      `api/product/getProductByTypeId?id=62cd7c4e0d2a3b3e78ed4434&limit=8&skip=1&min=0&max=10000000`,
+      "GET"
+    )
+      .then((res) => {
+        setStatue(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    callApi(
+      `api/product/getProductByTypeId?id=62cd7cbf0d2a3b3e78ed443c&limit=8&skip=1&min=0&max=10000000`,
+      "GET"
+    )
+      .then((res) => {
+        setUrn(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <>
       <input
@@ -22,8 +81,7 @@ function Home() {
         </label>
         <ul className="home-nav-list-mobile">
           <li className="">
-            <input className="check-1" type="checkbox" name="" id="check-1" />
-            <div className="">TRẦM - NHANG</div>
+            <div className="">TRANG SỨC</div>
             <label
               htmlFor="check-1"
               style={{
@@ -38,9 +96,77 @@ function Home() {
               />
             </label>
           </li>
-          <div className="list-1"></div>
+          <input className="check-1" type="checkbox" name="" id="check-1" />
+          <div className="list-1">
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=1"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng tay trầm tốc vương</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=2"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng tay trầm sánh chìm</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=3"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng trầm hương Việt Nam</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=4"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng trầm hương rừng Lào</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7b3584e523f391176a97&tag=5"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Vòng trầm rừng cao cấp</li>
+            </a>
+          </div>
           <div className="line"></div>
-          <li className="">TRANG SỨC</li>
+          <li className="">
+            <div className="">TRẦM - NHANG</div>
+            <label
+              htmlFor="check-2"
+              style={{
+                alignSelf: "self-start",
+                marginLeft: "auto",
+                marginRight: "10px",
+              }}
+            >
+              <img
+                src={require("../img/dashicons_arrow-left-alt2-mobile.png")}
+                alt=""
+              />
+            </label>
+          </li>
+          <input className="check-1" type="checkbox" name="" id="check-2" />
+          <div className="list-1">
+            <a
+              href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=1"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Nhang trầm không tăm</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=2"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Nhang khoanh trầm hương</li>
+            </a>
+            <a
+              href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=3"
+              style={{ color: "#7C82A1" }}
+            >
+              <li>Nụ rầm hương</li>
+            </a>
+          </div>
           <div className="line"></div>
           <li className="">TƯỢNG</li>
           <div className="line"></div>
@@ -50,7 +176,9 @@ function Home() {
           <div className="line"></div>
           <li className="">KIẾN THỨC</li>
           <div className="line"></div>
-          <li className="">LIÊN HỆ</li>
+          <a href="/aboutus" className="disable">
+            <li className="">LIÊN HỆ</li>
+          </a>
           <div className="line"></div>
           <div className="icons-mobile">
             <img
@@ -72,7 +200,7 @@ function Home() {
         </ul>
       </div>
       <label htmlFor="nav-mobile-input" className="nav__overlay-mobile"></label>
-      <div className="home-header--profile" style={{ display: "block"}}>
+      <div className="home-header--profile" style={{ display: "block" }}>
         <div className="home-header--profile__contact">
           <div className="home-header--profile--email">
             <img
@@ -137,11 +265,13 @@ function Home() {
               alt=""
               style={{ marginLeft: "40.93px" }}
             />
-            <img
-              className="shoping"
-              src={require("../img/ant-design_shopping-outlined.png")}
-              alt=""
-            />
+            <a href="/cart">
+              <img
+                className="shoping"
+                src={require("../img/ant-design_shopping-outlined.png")}
+                alt=""
+              />
+            </a>
           </div>
           <div className="">
             <img
@@ -150,15 +280,84 @@ function Home() {
               alt=""
             ></img>
             <div className="header">
-              <div className="header1">
+              <div className="header1" style={{ zIndex: 3 }}>
                 <div>TRẦM - NHANG</div>
+                <ul className="sub-menu">
+                  <a
+                    href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=1"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Nhang trầm không tăm</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=2"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Nhang khoanh trầm hương</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=3"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Nụ rầm hương</li>
+                  </a>
+                </ul>
               </div>
-              <div className="header1">TRANG SỨC</div>
-              <div className="header1">TƯỢNG</div>
-              <div className="header1">LƯ XÔNG TRẦM</div>
+              <div className="header1">
+                TRANG SỨC
+                <ul className="sub-menu">
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=1"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng tay trầm tốc vương</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=2"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng tay trầm sánh chìm</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=3"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng trầm hương Việt Nam</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=4"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng trầm hương rừng Lào</li>
+                  </a>
+                  <a
+                    href="/listproduct?id=62cd7b3584e523f391176a97&tag=5"
+                    style={{ color: "#7C82A1" }}
+                  >
+                    <li>Vòng trầm rừng cao cấp</li>
+                  </a>
+                </ul>
+              </div>
+              <a
+                href="/listproduct?id=62cd7c4e0d2a3b3e78ed4434"
+                className="disable"
+              >
+                <div className="header1">TƯỢNG</div>
+              </a>
+              <a
+                href="/listproduct?id=62cd7cbf0d2a3b3e78ed443c"
+                className="disable"
+              >
+                <div className="header1">LƯ XÔNG TRẦM</div>
+              </a>
               <div className="header1">HÀNG MỚI</div>
-              <div className="header1">KIẾN THỨC</div>
-              <div className="header1">LIÊN HỆ</div>
+
+              <a href="/knowledge" className="disable">
+                <div className="header1">KIẾN THỨC</div>
+              </a>
+              <a href="/aboutus" className="disable">
+                <div className="header1">LIÊN HỆ</div>
+              </a>
             </div>
             <div className="line"></div>
           </div>
@@ -528,7 +727,10 @@ function Home() {
               thủy gỗ trầm nguyên chất
             </p>
             <div className="btn-next-page">
-              <div className="btn-left">
+              <div
+                className="btn-left"
+                onClick={() => setJewelsNext(!jewelsNext)}
+              >
                 <img
                   className="img-btn-left"
                   src={require("../img/Vector-left.png")}
@@ -536,7 +738,10 @@ function Home() {
                   style={{ margin: "auto", padding: "7px", display: "block" }}
                 />
               </div>
-              <div className="btn-right">
+              <div
+                className="btn-right"
+                onClick={() => setJewelsNext(!jewelsNext)}
+              >
                 <img
                   className="img-btn-right"
                   src={require("../img/Vector-right.png")}
@@ -553,51 +758,62 @@ function Home() {
 
           <div className="pc">
             <div className="list-product">
-              <div className="item list-product-card">
-                <img src={require("../img/Rectangle 43.png")} alt="" />
-                <div className="title-product">Vòng tay gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="item list-product-card">
-                <img src={require("../img/Rectangle 43.png")} alt="" />
-                <div className="title-product">Vòng tay gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="item list-product-card">
-                <img src={require("../img/Rectangle 43.png")} alt="" />
-                <div className="title-product">Vòng tay gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="item list-product-card">
-                <img src={require("../img/Rectangle 43.png")} alt="" />
-                <div className="title-product">Vòng tay gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
+              {jewels.map((data, index) => {
+                if (index < 4 && jewelsNext == true)
+                  return (
+                    <div className="item list-product-card">
+                      <a href={"/productdetail?id=" + data._id}>
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </a>
+                    </div>
+                  );
+
+                if (index > 3 && jewelsNext == false)
+                  return (
+                    <div className="item list-product-card">
+                      <img src={data.img[0]} alt="" />
+                      <div className="title-product">{data.name}</div>
+                      <div className="price-product">
+                        {format(data.price)} VND
+                      </div>
+                    </div>
+                  );
+              })}
             </div>
           </div>
 
           <div className="mobile">
-            <div className="owl-carousel owl-theme list-product list-product-incense ">
-              <div className="item list-product-card">
-                <img src={require("../img/Rectangle 43.png")} alt="" />
-                <div className="title-product">Vòng tay gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="item list-product-card">
-                <img src={require("../img/Rectangle 43.png")} alt="" />
-                <div className="title-product">Vòng tay gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="item list-product-card">
-                <img src={require("../img/Rectangle 43.png")} alt="" />
-                <div className="title-product">Vòng tay gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="item list-product-card">
-                <img src={require("../img/Rectangle 43.png")} alt="" />
-                <div className="title-product">Vòng tay gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
+            <div className="list-product">
+              <OwlCarousel
+                items={1.4}
+                className="owl-theme owl-carousel"
+                loop={true}
+                nav={true}
+                dots={false}
+                margin={5}
+                navText={[
+                  '<div class="home-btn-left-mobile home-btn-next-page-mobile"><img class="img-btn-left" src="./img/Vector-left.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                  '<div class="home-btn-right-mobile home-btn-next-page-mobile"><img class="img-btn-right" src="./img/Vector-right.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                ]}
+              >
+                {jewels.map((data) => {
+                  return (
+                    <a href={"/productdetail?id=" + data._id}>
+                      <div className="list-product-card">
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
+              </OwlCarousel>
             </div>
           </div>
         </div>
@@ -609,7 +825,10 @@ function Home() {
               <b style={{ marginLeft: "10px" }}>/</b> Nhang trầm không tăm,
               nhang khoanh, nụ trầm hương chất lượng 100%{" "}
             </p>
-            <div className="btn-next-page">
+            <div
+              className="btn-next-page"
+              onClick={() => setIncenseNext(!incenseNext)}
+            >
               <div className="btn-left">
                 <img
                   className="img-btn-left"
@@ -618,7 +837,10 @@ function Home() {
                   style={{ margin: "auto", padding: "7px", display: "block" }}
                 />
               </div>
-              <div className="btn-right">
+              <div
+                className="btn-right"
+                onClick={() => setIncenseNext(!incenseNext)}
+              >
                 <img
                   className="img-btn-right"
                   src={require("../img/Vector-right.png")}
@@ -635,51 +857,62 @@ function Home() {
 
           <div className="pc">
             <div className="list-product">
-              <div className="list-product-card">
-                <img src={require("../img/Rectangle 43 (1).png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
+              {incense.map((data, i) => {
+                if (i < 4 && incenseNext == true)
+                  return (
+                    <div className="item list-product-card">
+                      <a href={"/productdetail?id=" + data._id}>
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </a>
+                    </div>
+                  );
+
+                if (i > 3 && incenseNext == false)
+                  return (
+                    <div className="list-product-card">
+                      <img src={data.img[0]} alt="" />
+                      <div className="title-product">{data.name}</div>
+                      <div className="price-product">
+                        {format(data.price)} VND
+                      </div>
+                    </div>
+                  );
+              })}
             </div>
           </div>
 
           <div className="mobile">
-            <div className="owl-carousel owl-theme list-product list-product-incense ">
-              <div className="list-product-card">
-                <img src={require("../img/Rectangle 43 (1).png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
+            <div className="list-product">
+              <OwlCarousel
+                items={1.4}
+                className="owl-theme owl-carousel"
+                loop={true}
+                nav={true}
+                dots={false}
+                margin={5}
+                navText={[
+                  '<div class="home-btn-left-mobile home-btn-next-page-mobile"><img class="img-btn-left" src="./img/Vector-left.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                  '<div class="home-btn-right-mobile home-btn-next-page-mobile"><img class="img-btn-right" src="./img/Vector-right.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                ]}
+              >
+                {incense.map((data) => {
+                  return (
+                    <a href={"/productdetail?id=" + data._id}>
+                      <div className="list-product-card">
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
+              </OwlCarousel>
             </div>
           </div>
         </div>
@@ -747,7 +980,7 @@ function Home() {
               <b style={{ marginLeft: "10px" }}>/</b> Lư xông trầm bằng đồng các
               loại bảo hành 2 năm
             </p>
-            <div className="btn-next-page">
+            <div className="btn-next-page" onClick={() => setUrnNext(!urn)}>
               <div className="btn-left">
                 <img
                   className="img-btn-left"
@@ -756,7 +989,7 @@ function Home() {
                   style={{ margin: "auto", padding: "7px", display: "block" }}
                 />
               </div>
-              <div className="btn-right">
+              <div className="btn-right" onClick={() => setUrnNext(!urn)}>
                 <img
                   className="img-btn-right"
                   src={require("../img/Vector-right.png")}
@@ -773,51 +1006,62 @@ function Home() {
 
           <div className="pc">
             <div className="list-product">
-              <div className="list-product-card">
-                <img src={require("../img/Rectangle 31.png")} alt="" />
-                <div className="title-product">Lư xông trầm bằng đồng</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_HJk_TLFW1Yw.png")} alt="" />
-                <div className="title-product">Lư xông trầm bằng đồng</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_HJk_TLFW1Yw.png")} alt="" />
-                <div className="title-product">Lư xông trầm bằng đồng</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_HJk_TLFW1Yw.png")} alt="" />
-                <div className="title-product">Lư xông trầm bằng đồng</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
+              {urn.map((data, i) => {
+                if (i < 4 && urnNext == true)
+                  return (
+                    <div className="item list-product-card">
+                      <a href={"/productdetail?id=" + data._id}>
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </a>
+                    </div>
+                  );
+
+                if (i > 3 && urnNext == false)
+                  return (
+                    <div className="list-product-card">
+                      <img src={require("../img/Rectangle 31.png")} alt="" />
+                      <div className="title-product">
+                        Lư xông trầm bằng đồng
+                      </div>
+                      <div className="price-product">1.990.000 VND</div>
+                    </div>
+                  );
+              })}
             </div>
           </div>
 
           <div className="mobile">
-            <div className="owl-carousel owl-theme list-product list-product-incense">
-              <div className="list-product-card">
-                <img src={require("../img/Rectangle 31.png")} alt="" />
-                <div className="title-product">Lư xông trầm bằng đồng</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_HJk_TLFW1Yw.png")} alt="" />
-                <div className="title-product">Lư xông trầm bằng đồng</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_HJk_TLFW1Yw.png")} alt="" />
-                <div className="title-product">Lư xông trầm bằng đồng</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_HJk_TLFW1Yw.png")} alt="" />
-                <div className="title-product">Lư xông trầm bằng đồng</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
+            <div className="list-product">
+              <OwlCarousel
+                items={1.4}
+                className="owl-theme owl-carousel"
+                loop={true}
+                nav={true}
+                dots={false}
+                margin={5}
+                navText={[
+                  '<div class="home-btn-left-mobile home-btn-next-page-mobile"><img class="img-btn-left" src="./img/Vector-left.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                  '<div class="home-btn-right-mobile home-btn-next-page-mobile"><img class="img-btn-right" src="./img/Vector-right.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                ]}
+              >
+                {urn.map((data) => {
+                  return (
+                    <a href={"/productdetail?id=" + data._id}>
+                      <div className="list-product-card">
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
+              </OwlCarousel>
             </div>
           </div>
         </div>
@@ -842,7 +1086,10 @@ function Home() {
               làm bằng gỗ trầm nguyên chất
             </p>
             <div className="btn-next-page">
-              <div className="btn-left">
+              <div
+                className="btn-left"
+                onClick={() => setStatueNext(!statueNext)}
+              >
                 <img
                   className="img-btn-left"
                   src={require("../img/Vector-left.png")}
@@ -850,7 +1097,10 @@ function Home() {
                   style={{ margin: "auto", padding: "7px", display: "block" }}
                 />
               </div>
-              <div className="btn-right">
+              <div
+                className="btn-right"
+                onClick={() => setStatueNext((prev) => !prev)}
+              >
                 <img
                   className="img-btn-right"
                   src={require("../img/Vector-right.png")}
@@ -867,75 +1117,62 @@ function Home() {
 
           <div className="pc">
             <div className="list-product">
-              <div className="list-product-card">
-                <img
-                  src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                  alt=""
-                />
-                <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img
-                  src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                  alt=""
-                />
-                <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img
-                  src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                  alt=""
-                />
-                <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img
-                  src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                  alt=""
-                />
-                <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
+              {statue.map((data, index) => {
+                if (index < 4 && statueNext == true)
+                  return (
+                    <div className="item list-product-card">
+                      <a href={"/productdetail?id=" + data._id}>
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </a>
+                    </div>
+                  );
+
+                if (index > 3 && statueNext == false)
+                  return (
+                    <div className="list-product-card">
+                      <img src={data.img[0]} alt="" />
+                      <div className="title-product">{data.name}</div>
+                      <div className="price-product">
+                        {format(data.price)} VND
+                      </div>
+                    </div>
+                  );
+              })}
             </div>
           </div>
 
           <div className="mobile">
-            <div className="owl-carousel owl-theme list-product list-product-incense ">
-              <div className="list-product-card">
-                <img
-                  src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                  alt=""
-                />
-                <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img
-                  src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                  alt=""
-                />
-                <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img
-                  src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                  alt=""
-                />
-                <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img
-                  src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                  alt=""
-                />
-                <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
+            <div className="list-product">
+              <OwlCarousel
+                items={1.4}
+                className="owl-theme owl-carousel"
+                loop={true}
+                nav={true}
+                dots={false}
+                margin={5}
+                navText={[
+                  '<div class="home-btn-left-mobile home-btn-next-page-mobile"><img class="img-btn-left" src="./img/Vector-left.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                  '<div class="home-btn-right-mobile home-btn-next-page-mobile"><img class="img-btn-right" src="./img/Vector-right.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                ]}
+              >
+                {statue.map((data) => {
+                  return (
+                    <a href={"/productdetail?id=" + data._id}>
+                      <div className="list-product-card">
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
+              </OwlCarousel>
             </div>
           </div>
         </div>
