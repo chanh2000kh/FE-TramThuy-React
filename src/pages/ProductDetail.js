@@ -4,6 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import callApi from "../api/ApiSevice.js";
 import format from "../sevices/FormatPrice.js";
+import Rating from "@mui/material/Rating";
 const GetURLParameter = (sParam) => {
   var sPageURL = window.location.search.substring(1);
   var sURLVariables = sPageURL.split("&");
@@ -25,8 +26,9 @@ function ProductDetail() {
   const [listCartLocal, setListCartLocal] = React.useState(
     JSON.parse(localStorage.getItem("listCart")) || []
   );
+  const [value, setValue] = React.useState(0);
   useEffect(() => {
-    const id = GetURLParameter("id")
+    const id = GetURLParameter("id");
     callApi(`api/product/getOneProduct?id=${id}`, "GET")
       .then((res) => {
         setProduct(res.data.data);
@@ -52,21 +54,20 @@ function ProductDetail() {
       amount: amount,
       check: check,
     };
-    var newListCart = listCartLocal
-    var duplicate = false
+    var newListCart = listCartLocal;
+    var duplicate = false;
     listCartLocal.some((data, i) => {
-       if (data.idProduct === product._id) {
-        duplicate = true
-        newListCart[i] = newdata
+      if (data.idProduct === product._id) {
+        duplicate = true;
+        newListCart[i] = newdata;
         localStorage.setItem("listCart", JSON.stringify(listCartLocal));
-        return
+        return;
       }
     });
-    if(duplicate == false){
-      newListCart.push(newdata)
+    if (duplicate == false) {
+      newListCart.push(newdata);
       localStorage.setItem("listCart", JSON.stringify(newListCart));
     }
-    
   };
   return (
     <>
@@ -121,12 +122,10 @@ function ProductDetail() {
               <div className="detail">
                 <div className="product-name">{product.name}</div>
                 <div className="row1">
-                  <img
-                    className="img-star"
-                    src={require("../img/Group 34.png")}
-                    alt=""
-                  />
-                  <div className="number-of-reviews">(23)</div>
+                  <Rating name="read-only" value={product.star} readOnly />
+                  <div className="number-of-reviews">
+                    ({product.numberOfReview})
+                  </div>
                   <div className="sold">Đã bán: {product.numberOfSold}</div>
                 </div>
                 <div className="product-price">{format(price)} VND</div>
@@ -435,10 +434,13 @@ function ProductDetail() {
                 Đánh giá sản phẩm từ 1 đến 5 sao và cho chúng tôi nhận xét của
                 bạn về sản phẩm này. Cảm ơn!
               </div>
-              <img
-                src={require("../img/Group 136.png")}
-                alt=""
-                style={{ marginTop: "76px" }}
+              <Rating
+                name="simple-controlled"
+                value={value}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }}
+                style={{ marginTop: "40px", fontSize: "50px"}}
               />
               <div className="name-email">
                 <input

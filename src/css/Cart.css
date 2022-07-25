@@ -50,7 +50,8 @@
 }
 
 .main-cart .list-product-cart .table-list-product-cart .row-product .img-name-product img {
-    width: 40%;
+    width: 100%;
+    height: 100%;
 
 }
 

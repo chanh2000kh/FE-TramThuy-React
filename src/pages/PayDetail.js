@@ -4,6 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import callApi from "../api/ApiSevice.js";
 import format from "../sevices/FormatPrice.js";
+import { firebase, auth } from "../sevices/Firebase.js";
 function PayDetail() {
   const [listCart, setListCart] = React.useState([]);
   const [listCartLocal, setListCartLocal] = React.useState(
@@ -21,6 +22,41 @@ function PayDetail() {
   const [note, setNote] = React.useState("");
   const [discountCode, setDiscountCode] = React.useState("");
   const [payOnline, setPayOnline] = React.useState(0);
+  //----OTP
+  const [otp, setOtp] = useState("");
+  const [step, setStep] = useState("INPUT_PHONE_NUMBER");
+  const [result, setResult] = useState("");
+
+  const signin = () => {
+    if (phone === "") return;
+
+    let verify = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
+      size: "invisible",
+    });
+    auth
+      .signInWithPhoneNumber("+84" + phone, verify)
+      .then((result) => {
+        setResult(result);
+        setStep("VERIFY_OTP");
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  const ValidateOtp = () => {
+    if (otp === null) return;
+
+    result
+      .confirm(otp)
+      .then((result) => {
+        setStep("VERIFY_SUCCESS");
+      })
+      .catch((err) => {
+        alert("Mã OTP không hợp lệ");
+      });
+  };
+  //--------
   useEffect(() => {
     const data = {
       listCart: listCartLocal,
@@ -37,131 +73,166 @@ function PayDetail() {
         console.log(err);
       });
   }, [listCartLocal]);
-  const createBill = ()=>{
+  const createBill = () => {
     const data = {
-        name,
-        address,
-        ZIPcode,
-        provinceCity,
-        country,
-        phone,
-        email,
-        note,
-        discountCode,
-        payOnline: payOnline === 0 ? false : true,
-        totalMoneyBill: totalBill,
-        products: listCart
-      };
-      console.log(data)
-      callApi(`api/bill/createBillHaventToken`, "POST", data)
+      name,
+      address,
+      ZIPcode,
+      provinceCity,
+      country,
+      phone,
+      email,
+      note,
+      discountCode,
+      payOnline: payOnline === 0 ? false : true,
+      totalMoneyBill: totalBill,
+      products: listCart,
+    };
+    callApi(`api/bill/createBillHaventToken`, "POST", data)
       .then((res) => {
-        window.alert("Tạo hóa đơn thành công!")
+        window.alert("Tạo hóa đơn thành công!");
         localStorage.setItem("listCart", JSON.stringify([]));
-        // window.location=`http://localhost:3000/paysuccess?id=${res.data.data._id}`;
+        // window.location = `http://localhost:3000/paysuccess?id=${res.data.data._id}`;
         window.location=`https://fe-tram-thuy-react.vercel.app/paysuccess?id=${res.data.data._id}`;
       })
       .catch((err) => {
+        window.alert("Tạo hóa đơn thất bại, vui lòng kiểm tra thông tin!")
         console.log(err);
       });
-  }
+  };
   return (
     <>
       <Header></Header>
-      <div class="main-pay-detail">
-        <div class="payment-steps">
-          <div class="title">1. Giỏ hàng</div>
-          <div class="title" style={{ color: "#22242F" }}>
+      <div className="main-pay-detail">
+        <div className="payment-steps">
+          <div className="title">1. Giỏ hàng</div>
+          <div className="title" style={{ color: "#22242F" }}>
             2. Chi tiết thanh toán
           </div>
-          <div class="title">3. Hoàn thành đơn hàng</div>
+          <div className="title">3. Hoàn thành đơn hàng</div>
         </div>
-        <div class="payment-steps-line">
-          <div class="step"></div>
-          <div class="step" style={{ background: "#000000" }}></div>
-          <div class="step"></div>
+        <div className="payment-steps-line">
+          <div className="step"></div>
+          <div className="step" style={{ background: "#000000" }}></div>
+          <div className="step"></div>
         </div>
-        <div class="pay-detail">
-          <div class="pay-detail-information">
-            <div class="information-title">THÔNG TIN</div>
-            <div class="address-title">Địa chỉ giao hàng</div>
-            <div class="add-information" style={{ marginTop: "71px" }}>
-              <div class="add-information-title">Tên</div>
+        <div className="pay-detail">
+          <div className="pay-detail-information">
+            <div className="information-title">THÔNG TIN</div>
+            <div className="address-title">Địa chỉ giao hàng</div>
+            <div className="add-information" style={{ marginTop: "71px" }}>
+              <div className="add-information-title">Tên</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               />
-              {name == "" && <div class="warning">*</div>}
+              {name == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Địa chỉ</div>
+            <div className="add-information">
+              <div className="add-information-title">Địa chỉ</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={address}
                 onChange={(event) => setAddress(event.target.value)}
               />
-              {address == "" && <div class="warning">*</div>}
+              {address == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Mã bưu điện</div>
+            <div className="add-information">
+              <div className="add-information-title">Mã bưu điện</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={ZIPcode}
                 onChange={(event) => setZIPcode(event.target.value)}
               />
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Tỉnh / Thành phố</div>
+            <div className="add-information">
+              <div className="add-information-title">Tỉnh / Thành phố</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={provinceCity}
                 onChange={(event) => setProvinceCity(event.target.value)}
               />
-              {provinceCity == "" && <div class="warning">*</div>}
+              {provinceCity == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Quốc gia</div>
+            <div className="add-information">
+              <div className="add-information-title">Quốc gia</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={country}
                 onChange={(event) => setCountry(event.target.value)}
               />
-              {country == "" && <div class="warning">*</div>}
+              {country == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Số điện thoại</div>
-              <input
-                class="input-information"
-                type="text"
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-              />
-              {phone == "" && <div class="warning">*</div>}
+            <div className="add-information">
+              <div className="add-information-title">Số điện thoại</div>
+              {step === "VERIFY_SUCCESS" && (
+                <input
+                  className="input-information"
+                  type="text"
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                  readonly="readonly"
+                />
+              )}
+              {(step === "INPUT_PHONE_NUMBER" || step === "VERIFY_OTP") && (
+                <>
+                  <input
+                    className="input-information"
+                    type="text"
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                  />
+                  {phone == "" && <div className="warning">*</div>}
+                  <div id="recaptcha-container"></div>
+                  <button onClick={signin}>Gửi OTP</button>
+                </>
+              )}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Email</div>
+            <div className="add-information">
+              <div className="add-information-title">Nhập mã OTP</div>
+
+              {step === "VERIFY_OTP" && (
+                <>
+                  <input
+                    className="input-information"
+                    type="text"
+                    onChange={(e) => {
+                      setOtp(e.target.value);
+                    }}
+                  />
+                  <button onClick={ValidateOtp}>Xác nhận</button>
+                </>
+              )}
+              {step === "VERIFY_SUCCESS" && (
+                <h3 className="warning">Xác nhận thành công</h3>
+              )}
+            </div>
+
+            <div className="add-information">
+              <div className="add-information-title">Email</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
-              {email == "" && <div class="warning">*</div>}
+              {email == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
+            <div className="add-information">
               <div
-                class="add-information-title"
+                className="add-information-title"
                 style={{ transform: "translateY(-150%)" }}
               >
                 Ghi chú
               </div>
               <textarea
-                class="input-information"
+                className="input-information"
                 type="text"
                 style={{ height: "132px", width: "499px" }}
                 value={note}
@@ -169,200 +240,255 @@ function PayDetail() {
               ></textarea>
             </div>
           </div>
-          <div class="pay-detail-information1">
-            <div class="title-cart">GIỎ HÀNG</div>
-            <div class="price-table">
-              <div class="row-table-price" style={{ marginTop: "0" }}>
-                <div class="title">Tạm tính</div>
-                <div class="price">{format(totalBill)} VND</div>
+          <div className="pay-detail-information1">
+            <div className="title-cart">GIỎ HÀNG</div>
+            <div className="price-table">
+              <div className="row-table-price" style={{ marginTop: "0" }}>
+                <div className="title">Tạm tính</div>
+                <div className="price">{format(totalBill)} VND</div>
               </div>
-              <div class="line"></div>
-              <div class="row-table-price">
-                <div class="title">Tổng</div>
-                <div class="price" style={{ color: "#DBAA53" }}>
+              <div className="line"></div>
+              <div className="row-table-price">
+                <div className="title">Tổng</div>
+                <div className="price" style={{ color: "#DBAA53" }}>
                   {format(totalBill)} VND
                 </div>
               </div>
             </div>
-            <div class="check-ship">
-              <div class="check-box">
+            <div className="check-ship">
+              <div className="check-box">
                 <input
-                  class="check"
+                  className="check"
                   type="checkbox"
                   checked={payOnline === 1}
                   onChange={() => setPayOnline(1)}
                 />
               </div>
 
-              <div class="ship-title">Chuyển khoản ngân hàng</div>
+              <div className="ship-title">Chuyển khoản ngân hàng</div>
             </div>
-            <div class="check-ship">
-              <div class="check-box"></div>
+            <div className="check-ship">
+              <div className="check-box"></div>
 
-              <div class="ship-title1">
+              <div className="ship-title1">
                 Thực hiện thanh toán vào ngay tài khoản ngân hàng của chúng tôi.
                 Vui lòng sử dụng Mã đơn hàng của bạn trong phần Nội dung thanh
                 toán. Đơn hàng sẽ đươc giao sau khi tiền đã chuyển.
               </div>
             </div>
-            <div class="check-ship">
-              <div class="check-box">
+            <div className="check-ship">
+              <div className="check-box">
                 <input
-                  class="check"
+                  className="check"
                   type="checkbox"
                   checked={payOnline === 0}
                   onChange={() => setPayOnline(0)}
                 />
               </div>
 
-              <div class="ship-title">Trả tiền mặt khi nhận hàng</div>
+              <div className="ship-title">Trả tiền mặt khi nhận hàng</div>
             </div>
-            <div class="phone-table">
+            <div className="phone-table">
               <img
                 src={require("../img/ant-design_phone-filled(2).png")}
                 alt=""
               />
-              <div class="box">
-                <div class="title-customer">HỖ TRỢ KHÁCH HÀNG</div>
-                <div class="title-phone">09XX.XXX.XXX 09XX.XXX.XXX</div>
+              <div className="box">
+                <div className="title-customer">HỖ TRỢ KHÁCH HÀNG</div>
+                <div className="title-phone">09XX.XXX.XXX 09XX.XXX.XXX</div>
               </div>
             </div>
-
-            <button class="bnt-next" onClick={createBill}>Tiếp tục</button>
+            <button className="bnt-next" onClick={() => {
+                if (step === "VERIFY_SUCCESS") {
+                  createBill();
+                } else {
+                  window.alert("Chưa xác nhận mã OTP");
+                }
+              }}>
+              Tiếp tục
+            </button>
           </div>
-          <div class="pay-detail-information-mobile">
-            <div class="price-table">
-              <div class="row-table-price" style={{ marginTop: "0" }}>
-                <div class="title">Tạm tính</div>
-                <div class="price">{format(totalBill)} VND</div>
+          <div className="pay-detail-information-mobile">
+            <div className="price-table">
+              <div className="row-table-price" style={{ marginTop: "0" }}>
+                <div className="title">Tạm tính</div>
+                <div className="price">{format(totalBill)} VND</div>
               </div>
-              <div class="line"></div>
-              <div class="row-table-price">
-                <div class="title">Tổng</div>
-                <div class="price" style={{ color: "#DBAA53" }}>
+              <div className="line"></div>
+              <div className="row-table-price">
+                <div className="title">Tổng</div>
+                <div className="price" style={{ color: "#DBAA53" }}>
                   {format(totalBill)} VND
                 </div>
               </div>
             </div>
-            <div class="add-information" style={{ marginTop: "31px" }}>
-              <div class="add-information-title">Tên</div>
+            <div className="add-information" style={{ marginTop: "31px" }}>
+              <div className="add-information-title">Tên</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               />
-              {name == "" && <div class="warning">*</div>}
+              {name == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Địa chỉ</div>
+            <div className="add-information">
+              <div className="add-information-title">Địa chỉ</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={address}
                 onChange={(event) => setAddress(event.target.value)}
               />
-              {address == "" && <div class="warning">*</div>}
+              {address == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Mã bưu điện</div>
+            <div className="add-information">
+              <div className="add-information-title">Mã bưu điện</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={ZIPcode}
                 onChange={(event) => setZIPcode(event.target.value)}
               />
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Tỉnh / Thành phố</div>
+            <div className="add-information">
+              <div className="add-information-title">Tỉnh / Thành phố</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={provinceCity}
                 onChange={(event) => setProvinceCity(event.target.value)}
               />
-              {provinceCity == "" && <div class="warning">*</div>}
+              {provinceCity == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Quốc gia</div>
+            <div className="add-information">
+              <div className="add-information-title">Quốc gia</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="text"
                 value={country}
                 onChange={(event) => setCountry(event.target.value)}
               />
-              {country == "" && <div class="warning">*</div>}
+              {country == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Số điện thoại</div>
-              <input
-                class="input-information"
-                type="text"
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-              />
-              {phone == "" && <div class="warning">*</div>}
+            <div className="add-information">
+              <div className="add-information-title">Số điện thoại</div>
+
+              {step === "VERIFY_SUCCESS" && (
+                <input
+                  className="input-information"
+                  type="text"
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                  readonly="readonly"
+                />
+              )}
+              {(step === "INPUT_PHONE_NUMBER" || step === "VERIFY_OTP") && (
+                <>
+                  <input
+                    className="input-information"
+                    type="text"
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                  />
+                  {phone == "" && <div className="warning">*</div>}
+                  <div id="recaptcha-container"></div>
+                  <button onClick={signin}>Gửi OTP</button>
+                </>
+              )}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Email</div>
+
+            <div className="add-information">
+              <div className="add-information-title">Nhập mã OTP</div>
+
+              {step === "VERIFY_OTP" && (
+                <>
+                  <input
+                    className="input-information"
+                    type="text"
+                    onChange={(e) => {
+                      setOtp(e.target.value);
+                    }}
+                  />
+                  <button onClick={ValidateOtp}>Xác nhận</button>
+                </>
+              )}
+              {step === "VERIFY_SUCCESS" && (
+                <h3 className="warning">Xác nhận thành công</h3>
+              )}
+            </div>
+
+            <div className="add-information">
+              <div className="add-information-title">Email</div>
               <input
-                class="input-information"
+                className="input-information"
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
-              {email == "" && <div class="warning">*</div>}
+              {email == "" && <div className="warning">*</div>}
             </div>
-            <div class="add-information">
-              <div class="add-information-title">Ghi chú</div>
+            <div className="add-information">
+              <div className="add-information-title">Ghi chú</div>
               <textarea
-                class="input-information1"
+                className="input-information1"
                 type="text"
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
               ></textarea>
             </div>
-            <div class="check-ship" style={{ marginTop: "27px" }}>
-              <div class="check-box">
+            <div className="check-ship" style={{ marginTop: "27px" }}>
+              <div className="check-box">
                 <input
-                  class="check"
+                  className="check"
                   type="checkbox"
                   checked={payOnline === 1}
                   onChange={() => setPayOnline(1)}
                 />
               </div>
 
-              <div class="ship-title">Chuyển khoản ngân hàng</div>
+              <div className="ship-title">Chuyển khoản ngân hàng</div>
             </div>
-            <div class="check-ship">
-              <div class="check-box"></div>
-              <div class="ship-title1">
+            <div className="check-ship">
+              <div className="check-box"></div>
+              <div className="ship-title1">
                 Thực hiện thanh toán vào ngay tài khoản ngân hàng của chúng tôi.
                 Vui lòng sử dụng Mã đơn hàng của bạn trong phần Nội dung thanh
                 toán. Đơn hàng sẽ đươc giao sau khi tiền đã chuyển.
               </div>
             </div>
-            <div class="check-ship" style={{ marginTop: "13px" }}>
-              <div class="check-box">
+            <div className="check-ship" style={{ marginTop: "13px" }}>
+              <div className="check-box">
                 <input
-                  class="check"
+                  className="check"
                   type="checkbox"
                   checked={payOnline === 0}
                   onChange={() => setPayOnline(0)}
                 />
               </div>
 
-              <div class="ship-title">Trả tiền mặt khi nhận hàng</div>
+              <div className="ship-title">Trả tiền mặt khi nhận hàng</div>
             </div>
-            <button class="bnt-next" onClick={createBill}>Tiếp tục</button>
-            <div class="phone-table">
+            <button
+              className="bnt-next"
+              onClick={() => {
+                if (step === "VERIFY_SUCCESS") {
+                  createBill();
+                } else {
+                  window.alert("Chưa xác nhận mã OTP");
+                }
+              }}
+            >
+              Tiếp tục
+            </button>
+            <div className="phone-table">
               <img
                 src={require("../img/ant-design_phone-filled(2).png")}
                 alt=""
               />
-              <div class="box">
-                <div class="title-customer">HỖ TRỢ KHÁCH HÀNG</div>
-                <div class="title-phone">09XX.XXX.XXX 09XX.XXX.XXX</div>
+              <div className="box">
+                <div className="title-customer">HỖ TRỢ KHÁCH HÀNG</div>
+                <div className="title-phone">09XX.XXX.XXX 09XX.XXX.XXX</div>
               </div>
             </div>
           </div>

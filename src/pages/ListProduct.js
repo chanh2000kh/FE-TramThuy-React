@@ -117,6 +117,27 @@ function ListProduct() {
       }
     });
   };
+  const addCart = (id) => {
+    const newdata = {
+      idProduct: id,
+      amount: 1,
+      check: 0,
+    };
+    var newListCart = JSON.parse(localStorage.getItem("listCart")) || [];
+    var duplicate = false;
+    newListCart.some((data, i) => {
+      if (data.idProduct === id) {
+        duplicate = true;
+        newListCart[i] = newdata;
+        localStorage.setItem("listCart", JSON.stringify(newListCart));
+        return;
+      }
+    });
+    if (duplicate == false) {
+      newListCart.push(newdata);
+      localStorage.setItem("listCart", JSON.stringify(newListCart));
+    }
+  };
   return (
     <>
       <Header id={header}></Header>
@@ -304,8 +325,18 @@ function ListProduct() {
             {listProduct.map((data) => {
               return (
                 <div className="card-product" key={data._id}>
-                  <a href="">
-                    <div className="btn-card-product">Thêm vào giỏ hàng</div>
+                  <div
+                    className="btn-card-product"
+                    onClick={() => {
+                      addCart(data._id);
+                      window.alert("Thêm vào giỏ hàng thanh công!");
+                      window.location = `https://fe-tram-thuy-react.vercel.app/cart`;
+                      // window.location = `http://localhost:3000/cart`;
+                    }}
+                  >
+                    Thêm vào giỏ hàng
+                  </div>
+                  <a href={"/productdetail?id=" + data._id}>
                     <img src={data.img[0]} alt="" />
                     <div className="title-product">{data.name}</div>
                     {/* 900.000 VND - 2.100.000 VND */}

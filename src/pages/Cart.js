@@ -4,6 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import callApi from "../api/ApiSevice.js";
 import format from "../sevices/FormatPrice.js";
+
 function Cart() {
   // localStorage.setItem('listCart', JSON.stringify([{idProduct:"62ceca58b6f47eb61bb4fe41",amount: 1}, {idProduct:"62cecbfbb6f47eb61bb4fe45",amount: 1}]));
   const [listCart, setListCart] = React.useState([]);
@@ -95,7 +96,13 @@ function Cart() {
                 <>
                   <div className="row-product">
                     <div className="img-name-product">
-                      <img src={data.product.img[0]} alt="" />
+                      <a
+                        href={"/productdetail?id=" + data.product._id}
+                        style={{ width: "40%" }}
+                      >
+                        <img src={data.product.img[0]} alt="" />
+                      </a>
+
                       <div className="name-product">
                         <div className="" style={{ height: "78%" }}>
                           {data.product.name}
@@ -127,9 +134,30 @@ function Cart() {
                       </div>
                     </div>
                     <div className="temporary-price float-right">
-                      {data.product.size.length > 0 && <>{format((data.product.price + Number(data.product.size[data.check].priceAdd)) * data.amount)} VND</>}
-                      {data.product.type.length > 0 && <>{format((data.product.price + Number(data.product.type[data.check].priceAdd))* data.amount)} VND</>}
-                      {(data.product.size.length == 0 && data.product.type.length == 0) && <>{format(data.product.price * data.amount)} VND</>}
+                      {data.product.size.length > 0 && (
+                        <>
+                          {format(
+                            (data.product.price +
+                              Number(data.product.size[data.check].priceAdd)) *
+                              data.amount
+                          )}{" "}
+                          VND
+                        </>
+                      )}
+                      {data.product.type.length > 0 && (
+                        <>
+                          {format(
+                            (data.product.price +
+                              Number(data.product.type[data.check].priceAdd)) *
+                              data.amount
+                          )}{" "}
+                          VND
+                        </>
+                      )}
+                      {data.product.size.length == 0 &&
+                        data.product.type.length == 0 && (
+                          <>{format(data.product.price * data.amount)} VND</>
+                        )}
                     </div>
                     <div
                       className="delete"

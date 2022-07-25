@@ -444,6 +444,7 @@
     width: 50%;
     display: block;
     margin: auto;
+    border-radius: 50%;
 }
 
 .describe-product-detail-review .review-detail .row-review .box {
