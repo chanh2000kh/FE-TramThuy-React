@@ -399,7 +399,7 @@ function PayDetail() {
             </div>
 
             <div className="add-information">
-              <div className="add-information-title">Nhập mã OTP</div>
+              <div className="add-information-title"w>Nhập mã OTP</div>
 
               {step === "VERIFY_OTP" && (
                 <>
@@ -414,7 +414,7 @@ function PayDetail() {
                 </>
               )}
               {step === "VERIFY_SUCCESS" && (
-                <h3 className="warning">Xác nhận thành công</h3>
+                <h3 className="warning" style={{width: "100%"}}>Xác nhận thành công</h3>
               )}
             </div>
 
