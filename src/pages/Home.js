@@ -690,7 +690,7 @@ function Home() {
           </div>
           <div className="list-new-product">
             <OwlCarousel
-              className="owl-carousel"
+              className="owl-theme owl-carousel"
               center={true}
               items={4}
               loop={true}
@@ -716,7 +716,7 @@ function Home() {
 
           <div className="list-new-product1">
             <OwlCarousel
-              className="owl-carousel"
+              className="owl-theme owl-carousel"
               center={true}
               loop={true}
               margin={20}
