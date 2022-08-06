@@ -169,7 +169,7 @@ function ProductDetail() {
           </div>
           <div className="product-detail-column2">
             <div className="column1-img">
-              <img className="img" src={imgProduct[0]} alt="" />
+              <img className="img" src={imgProduct[0]} alt="" id="main-img"/>
               <div className="list-product-img-mobile">
                 <img src={imgProduct[0]} alt="" style={{ marginLeft: "0" }} />
                 {imgProduct.map((data, index) => {
