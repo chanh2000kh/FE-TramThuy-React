@@ -86,7 +86,9 @@
     width: 70%;
     margin: 0 auto;
 }
-
+.main-knowledge .main-knowledge-column2 .list-knowledge {
+    height: 1900px
+}
 .main-knowledge .main-knowledge-column2 .card {
     width: 100%;
     display: flex;
@@ -165,7 +167,9 @@
     .main-knowledge .main-knowledge-column2 {
         width: 100%;
     }
-
+    .main-knowledge .main-knowledge-column2 .list-knowledge{
+        height: 750px;
+    }
     .main-knowledge .main-knowledge-column2 .card .box .title {
         font-weight: 500;
         font-size: 12.6984px;

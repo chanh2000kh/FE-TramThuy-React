@@ -5,7 +5,11 @@ import { useState, useEffect } from "react";
 import callApi from "../api/ApiSevice.js";
 import format from "../sevices/FormatPrice.js";
 import { firebase, auth } from "../sevices/Firebase.js";
+
+import { useNavigate } from 'react-router-dom';
 function PayDetail() {
+  const navigate = useNavigate();
+
   const [listCart, setListCart] = React.useState([]);
   const [listCartLocal, setListCartLocal] = React.useState(
     JSON.parse(localStorage.getItem("listCart"))
@@ -92,8 +96,7 @@ function PayDetail() {
       .then((res) => {
         window.alert("Tạo hóa đơn thành công!");
         localStorage.setItem("listCart", JSON.stringify([]));
-        // window.location = `http://localhost:3000/paysuccess?id=${res.data.data._id}`;
-        window.location=`https://fe-tram-thuy-react.vercel.app/paysuccess?id=${res.data.data._id}`;
+       navigate(`/paysuccess?id=${res.data.data._id}`);
       })
       .catch((err) => {
         window.alert("Tạo hóa đơn thất bại, vui lòng kiểm tra thông tin!")
@@ -102,7 +105,7 @@ function PayDetail() {
   };
   return (
     <>
-      <Header></Header>
+      <Header id={6}></Header>
       <div className="main-pay-detail">
         <div className="payment-steps">
           <div className="title">1. Giỏ hàng</div>

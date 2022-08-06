@@ -90,6 +90,7 @@
     line-height: 150%;
     letter-spacing: 0.05em;
     color: #000000;
+    min-height: 800px;
 }
 
 .main-knowledge-detail .main-knowledge-detail-column2 .detail p {
@@ -97,7 +98,7 @@
 }
 
 .main-knowledge-detail .main-knowledge-detail-column2 .detail img {
-    width: 100%;
+    max-width: 100%;
     margin-top: 14px;
 }
 
@@ -150,10 +151,12 @@
 .main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list .card {
     width: 32%;
     margin: auto;
+    height: 350px;
 }
 
 .main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list .card img {
     width: 100%;
+    height: 75%;
 }
 
 .main-knowledge-detail .main-knowledge-detail-column2 .related-posts-list .card .title {
@@ -210,7 +213,7 @@
         line-height: 150%;
         letter-spacing: 0.05em;
     }
-
+    
     .main-knowledge-detail .main-knowledge-detail-column2 .list-icons {
         width: 40%;
         margin-top: 24px;

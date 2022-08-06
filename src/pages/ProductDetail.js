@@ -2,9 +2,21 @@ import Header from "../components/Header";
 import "../css/ProductDetail.css";
 import React from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import callApi from "../api/ApiSevice.js";
 import format from "../sevices/FormatPrice.js";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Rating from "@mui/material/Rating";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import parse from "html-react-parser";
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
+import { useNavigate } from 'react-router-dom';
+
 const GetURLParameter = (sParam) => {
   var sPageURL = window.location.search.substring(1);
   var sURLVariables = sPageURL.split("&");
@@ -15,7 +27,12 @@ const GetURLParameter = (sParam) => {
     }
   }
 };
+function formatDate(date) {
+  return new Date(date).toISOString().split("T")[0];
+}
 function ProductDetail() {
+  const navigate = useNavigate();
+
   const [product, setProduct] = React.useState({});
   const [imgProduct, setImgProduct] = React.useState([]);
   const [check, setCheck] = React.useState(0);
@@ -23,10 +40,38 @@ function ProductDetail() {
   const [size, setSize] = React.useState([]);
   const [price, setPrice] = React.useState(0);
   const [amount, setAmount] = React.useState(1);
+  const [detailProduct, setDetailProduct] = React.useState("");
+  const [star, setStar] = React.useState(0);
+  const [numberOfReview, setnumberOfReview] = React.useState(0);
+  const [listDescribeId, setListDescribeId] = React.useState([]);
+  const [listReview, setListReview] = React.useState([]);
   const [listCartLocal, setListCartLocal] = React.useState(
     JSON.parse(localStorage.getItem("listCart")) || []
   );
+  const [listProduct, setListProduct] = React.useState([]);
+  const LoadListProduct = (id) => {
+    callApi(
+      `api/product/getProductByTypeId?id=${id}&limit=8&skip=1&min=0&max=10000000`,
+      "GET"
+    )
+      .then((res) => {
+        setListProduct(res.data.data.product);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const [value, setValue] = React.useState(0);
+  const loadListReview = () => {
+    const id = GetURLParameter("id");
+    callApi(`api/review/getReviewByIdProduct?id=${id}&limit=4&skip=1`, "GET")
+      .then((res) => {
+        setListReview(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     const id = GetURLParameter("id");
     callApi(`api/product/getOneProduct?id=${id}`, "GET")
@@ -36,11 +81,42 @@ function ProductDetail() {
         setType(res.data.data.type);
         setSize(res.data.data.size);
         setPrice(res.data.data.price);
+        setDetailProduct(res.data.data.detailProduct);
+        setListDescribeId(res.data.data.listDescribeId);
+        setStar(res.data.data.star);
+        setnumberOfReview(res.data.data.numberOfReview);
+        LoadListProduct(res.data.data.productTypeId);
       })
       .catch((err) => {
         console.log(err);
       });
+    loadListReview();
   }, []);
+  // --------------Add review
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [writeReview, setWriteReview] = React.useState("");
+
+  const addReview = () => {
+    const id = GetURLParameter("id");
+    const data = {
+      name,
+      email,
+      writeReview,
+      star: value,
+      productId: id,
+    };
+    console.log(data);
+    callApi(`api/review/addReview`, "POST", data)
+      .then((res) => {
+        window.alert("Đánh giá thành công, Admin sẽ duyệt đánh giá này sau");
+      })
+      .catch((err) => {
+        window.alert("Đánh giá thất bại");
+        console.log(err);
+      });
+  };
+  // -------------------------
   const addPrice = (n) => {
     const total = Number(product.price) + Number(n);
     setPrice(total);
@@ -122,10 +198,13 @@ function ProductDetail() {
               <div className="detail">
                 <div className="product-name">{product.name}</div>
                 <div className="row1">
-                  <Rating name="read-only" value={product.star} readOnly />
-                  <div className="number-of-reviews">
-                    ({product.numberOfReview})
-                  </div>
+                  <Rating
+                    name="read-only"
+                    value={star}
+                    readOnly
+                    style={{ color: "#DBAA53" }}
+                  />
+                  <div className="number-of-reviews">({numberOfReview})</div>
                   <div className="sold">Đã bán: {product.numberOfSold}</div>
                 </div>
                 <div className="product-price">{format(price)} VND</div>
@@ -216,8 +295,7 @@ function ProductDetail() {
                     onClick={() => {
                       addCart();
                       window.alert("Thêm vào giỏ hàng thanh công!");
-                      window.location = `https://fe-tram-thuy-react.vercel.app/cart`;
-                      // window.location = `http://localhost:3000/cart`;
+                      navigate("/cart")
                     }}
                   >
                     Thêm vào giỏ hàng
@@ -336,11 +414,11 @@ function ProductDetail() {
           name="radio-input-title"
         />
         <label htmlFor="review" className="name">
-          ĐÁNH GIÁ (2)
+          ĐÁNH GIÁ ({numberOfReview})
         </label>
 
         <div className="describe-detail">
-          <div className="question">
+          {/* <div className="question">
             <div className="">Nhang nụ Trầm Hương là gì?</div>
             <img
               src={require("../img/dashicons_arrow-left-alt2 (3).png")}
@@ -380,11 +458,56 @@ function ProductDetail() {
               sống của bạn luôn tràn ngập hương thơm dễ chịu.
             </p>
           </div>
-          <div className="line"></div>
+          <div className="line"></div> */}
+          {listDescribeId.map((data) => {
+            return (
+              <Accordion style={{ boxShadow: "none" }}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  className="line"
+                  style={{ padding: 0 }}
+                >
+                  <div className="question">
+                    <div>{data.describeName}</div>
+                  </div>
+                </AccordionSummary>
+                <AccordionDetails style={{ padding: 0 }}>
+                  {data.listDescribe.map((d) => {
+                    return (
+                      <Accordion style={{ boxShadow: "none" }}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                          className="line"
+                          style={{
+                            marginLeft: "10%",
+                            padding: 0,
+                          }}
+                        >
+                          {/* <Typography>Accordion 1</Typography> */}
+                          <div className="question-title">
+                            <div className="">{d.name}</div>
+                          </div>
+                        </AccordionSummary>
+                        <div className="question-title-answer">
+                          {parse(d.detail)}
+                        </div>
+                      </Accordion>
+                    );
+                  })}
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
         </div>
 
         <div className="product-detail">
-          <div className="row">
+          {parse(detailProduct)}
+
+          {/* <div className="row">
             <div className="title">CHẤT LIỆU</div>
             <div className="detail">Trầm Hương – Charm Bạc S925</div>
           </div>
@@ -409,13 +532,18 @@ function ProductDetail() {
           </div>
           <div className="more-detail">
             Mang ý nghĩa sum họp, yên vui, thịnh vượng, bình an
-          </div>
+          </div> */}
         </div>
 
         <div className="review-detail">
           <div className="row">
-            <img src={require("../img/Group 34 (1).png")} alt="" />
-            <div className="number-of-reviews">(2)</div>
+            <Rating
+              name="read-only"
+              value={star}
+              readOnly
+              style={{ color: "#DBAA53", fontSize: "40px" }}
+            />
+            <div className="number-of-reviews">({numberOfReview})</div>
 
             {/* <input className="sent-review" type="radio" id="sent-review"/> */}
 
@@ -440,18 +568,26 @@ function ProductDetail() {
                 onChange={(event, newValue) => {
                   setValue(newValue);
                 }}
-                style={{ marginTop: "40px", fontSize: "50px"}}
+                style={{
+                  marginTop: "40px",
+                  fontSize: "50px",
+                  color: "#DBAA53",
+                }}
               />
               <div className="name-email">
                 <input
+                  value={name}
                   type="text"
                   placeholder="Tên hiển thị"
                   style={{ width: "35%" }}
+                  onChange={(event) => setName(event.target.value)}
                 />
                 <input
                   type="email"
                   placeholder="Email"
                   style={{ width: "60%" }}
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
               <textarea
@@ -461,6 +597,8 @@ function ProductDetail() {
                 cols="30"
                 rows="10"
                 placeholder="Viết đánh giá"
+                value={writeReview}
+                onChange={(event) => setWriteReview(event.target.value)}
               ></textarea>
 
               <div className="btn-save-review">
@@ -468,11 +606,12 @@ function ProductDetail() {
                 <div className="title-save-review">
                   Lưu thông tin cho bình luận sau
                 </div>
+                
                 <label htmlFor="checkbox-write-review">
-                  <button className="btn-close-mobile">ĐÓNG</button>
+                  <div className="btn-close-mobile"><div style={{margin: "auto"}}>ĐÓNG</div></div>
                 </label>
                 <label htmlFor="sent-review">
-                  <button>GỬI</button>
+                  <button onClick={addReview}>GỬI</button>
                 </label>
               </div>
             </div>
@@ -484,44 +623,31 @@ function ProductDetail() {
               Viết đánh giá
             </label>
           </div>
-          <div className="row-review">
-            <div className="avatar" style={{ marginTop: "15px" }}>
-              <img src={require("../img/Ellipse 10 (1).png")} alt="" />
-            </div>
-
-            <div className="box">
-              <img src={require("../img/Group 34 (2).png")} alt="" />
-              <div className="name-date">
-                <div className="name-review">Nguyen A.</div>
-                <div className="date-review" style={{ color: "#ACAFC3" }}>
-                  23/02/2022
+          {listReview.map((data) => {
+            return (
+              <div className="row-review">
+                <div className="avatar" style={{ marginTop: "15px" }}>
+                  <img src={data.img} alt="" />
                 </div>
-              </div>
-            </div>
-            <div className="content">
-              “ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Tincidunt vivamus feugiat sed quisque id sit ut amet, ipsum
-            </div>
-          </div>
 
-          <div className="row-review">
-            <div className="avatar">
-              <img src={require("../img/Ellipse 10 (1).png")} alt="" />
-            </div>
-            <div className="box">
-              <img src={require("../img/Group 34 (2).png")} alt="" />
-              <div className="name-date">
-                <div className="name-review">Nguyen A.</div>
-                <div className="date-review" style={{ color: "#ACAFC3" }}>
-                  23/02/2022
+                <div className="box">
+                  <Rating
+                    name="read-only"
+                    value={star}
+                    readOnly
+                    style={{ color: "#DBAA53" }}
+                  />
+                  <div className="name-date">
+                    <div className="name-review">{data.name}</div>
+                    <div className="date-review" style={{ color: "#ACAFC3" }}>
+                      {formatDate(data.createdAt)}
+                    </div>
+                  </div>
                 </div>
+                <div className="content">“ {data.writeReview}</div>
               </div>
-            </div>
-            <div className="content">
-              “ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Tincidunt vivamus feugiat sed quisque id sit ut amet, ipsum
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
 
@@ -543,27 +669,33 @@ function ProductDetail() {
           </div>
 
           <div className="mobile">
-            <div className="owl-carousel owl-theme list-product list-product-jewels ">
-              <div className="list-product-card">
-                <img src={require("../img/Rectangle 43 (1).png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
-              <div className="list-product-card">
-                <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-                <div className="title-product">Nhang trầm hương</div>
-                <div className="price-product">1.990.000 VND</div>
-              </div>
+            <div className="list-product ">
+              <OwlCarousel
+                items={1.4}
+                className="owl-theme owl-carousel"
+                loop={true}
+                nav={true}
+                dots={false}
+                margin={5}
+                navText={[
+                  '<div class="home-btn-left-mobile home-btn-next-page-mobile"><img class="img-btn-left" src="./img/Vector-left.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                  '<div class="home-btn-right-mobile home-btn-next-page-mobile"><img class="img-btn-right" src="./img/Vector-right.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                ]}
+              >
+                {listProduct.map((data) => {
+                  return (
+                    <Link to={"/productdetail?id=" + data._id}>
+                      <div className="list-product-card">
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </OwlCarousel>
             </div>
           </div>
         </div>
@@ -581,39 +713,30 @@ function ProductDetail() {
           </div>
         </div>
         <div className="pc">
-          <div className="owl-carousel owl-theme list-product list-product-product-detail">
-            <div className="list-product-card">
-              <img
-                src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                alt=""
-              />
-              <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-              <div className="price-product">1.990.000 VND</div>
-            </div>
-            <div className="list-product-card">
-              <img
-                src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                alt=""
-              />
-              <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-              <div className="price-product">1.990.000 VND</div>
-            </div>
-            <div className="list-product-card">
-              <img
-                src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                alt=""
-              />
-              <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-              <div className="price-product">1.990.000 VND</div>
-            </div>
-            <div className="list-product-card">
-              <img
-                src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                alt=""
-              />
-              <div className="title-product">Tượng Phật tổ gỗ trầm</div>
-              <div className="price-product">1.990.000 VND</div>
-            </div>
+          <div className="list-product">
+            <OwlCarousel
+              items={4}
+              className="owl-theme owl-carousel"
+              loop={true}
+              nav={true}
+              dots={false}
+              margin={5}
+              navText={["<div>1</div>", '<div style="color: #000000;">2</div>']}
+            >
+              {listProduct.map((data) => {
+                return (
+                  <Link to={"/productdetail?id=" + data._id}>
+                    <div className="list-product-card">
+                      <img src={data.img[0]} alt="" />
+                      <div className="title-product">{data.name}</div>
+                      <div className="price-product">
+                        {format(data.price)} VND
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </OwlCarousel>
           </div>
         </div>
       </div>

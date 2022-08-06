@@ -4,6 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import callApi from "../api/ApiSevice.js";
 import format from "../sevices/FormatPrice.js";
+import { Link } from "react-router-dom";
 const GetURLParameter = (sParam) => {
   var sPageURL = window.location.search.substring(1);
   var sURLVariables = sPageURL.split("&");
@@ -30,7 +31,7 @@ function PaySuccess() {
   }, []);
   return (
     <>
-      <Header></Header>
+      <Header id={6}></Header>
       <div className="main-pay-success">
         <div className="payment-steps">
           <div className="title">1. Giỏ hàng</div>
@@ -110,9 +111,9 @@ function PaySuccess() {
           <div className="title-thank-you">
             CẢM ƠN BẠN ĐÃ MUA HÀNG Ở TRẦM THỦY!
           </div>
-          <a href="/">
+          <Link to="/">
             <button className="btn-continue-buy">TIẾP TỤC MUA HÀNG</button>
-          </a>
+          </Link>
         </div>
 
         <div className="pay-success-detail-moblie">
@@ -186,9 +187,9 @@ function PaySuccess() {
           <div className="title-thank-you">
             CẢM ƠN BẠN ĐÃ MUA HÀNG Ở TRẦM THỦY!
           </div>
-          <a href="/">
+          <Link to="/">
             <button className="btn-continue-buy">TIẾP TỤC MUA HÀNG</button>
-          </a>
+          </Link>
         </div>
       </div>
     </>

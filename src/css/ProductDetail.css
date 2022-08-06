@@ -325,14 +325,15 @@
     align-items: center;
 }
 
+
 .describe-product-detail-review .describe-detail .line {
     border-bottom: 1px solid #ACAFC3;
-    margin-top: 23px;
+    /* margin-top: 23px; */
 }
 
 .describe-product-detail-review .describe-detail .question-title {
-    margin-left: 10%;
-    margin-top: 23px;
+    /* margin-left: 10%; */
+    /* margin-top: 23px; */
     font-style: normal;
     font-weight: 300;
     font-size: 21px;
@@ -364,6 +365,7 @@
     margin-top: 50px;
     width: 80%;
     display: none;
+    font-size: 21px;
 }
 
 .describe-product-detail-review .product-detail .row {
@@ -595,8 +597,12 @@
 
 .new-product-about-us .pc .list-product .list-product-card {
     padding: 10px 10px;
+    height: 350px;
+    color: #000000;
 }
-
+.new-product-about-us .pc .list-product .list-product-card img{
+    height: 70%
+}
 .new-product-about-us .pc .list-product .list-product-card:hover {
     background: #000000;
     color: #FFFFFF;
@@ -848,6 +854,7 @@
     .describe-product-detail-review .product-detail {
         width: 100%;
         margin-top: 30px;
+        font-size: 11px;
     }
 
     .describe-product-detail-review .product-detail .row .title {
@@ -948,7 +955,8 @@
     .describe-product-detail-review .review-detail .row .tab-write-review {
         width: 100%;
         border-radius: 20px 20px 0px 0px;
-        top: 10%;
+        top: 15%;
+        bottom: 0;
     }
 
     .describe-product-detail-review .review-detail .row .tab-write-review .product-name {
@@ -1019,5 +1027,12 @@
         background: #FFFFFF;
         border: 1px solid #ACAFC3;
         display: block;
+        height: 40.49px;
+        font-weight: 500;
+        font-size: 16.7901px;
+        line-height: 20px;
+        letter-spacing: 0.03em;   
+        width: 124px;
+        display: flex;
     }
 }

@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import "../css/Cart.css";
 import React from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import callApi from "../api/ApiSevice.js";
 import format from "../sevices/FormatPrice.js";
 
@@ -96,12 +97,12 @@ function Cart() {
                 <>
                   <div className="row-product">
                     <div className="img-name-product">
-                      <a
-                        href={"/productdetail?id=" + data.product._id}
+                      <Link
+                        to={"/productdetail?id=" + data.product._id}
                         style={{ width: "40%" }}
                       >
                         <img src={data.product.img[0]} alt="" />
-                      </a>
+                      </Link>
 
                       <div className="name-product">
                         <div className="" style={{ height: "78%" }}>
@@ -205,9 +206,9 @@ function Cart() {
                   Áp dụng
                 </button>
               </div>
-              <a href="/paydetail">
+              <Link to="/paydetail">
                 <button className="btn-pay">TIẾN HÀNH THANH TOÁN</button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

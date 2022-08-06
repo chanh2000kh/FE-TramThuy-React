@@ -370,7 +370,147 @@ input[type="range"]::-moz-range-thumb {
 .main-all .colum-list-products {
     width: 70%;
 }
+.main-all .colum-list-products .checkbox-filter{
+    display: none;
+}
+.main-all .colum-list-products .nav__overplay-filter{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 3;
+    display: none;
+}
+.main-all .colum-list-products .checkbox-filter:checked~.nav__overplay-filter{
+    display: block;
+}
+.main-all .colum-list-products .tab-filter{
+    display: none;
+    background: #FFFFFF;
+    position: fixed;
+    z-index: 4;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 25px 25px;
+    width: 100%;
+    border-radius: 20px 20px 0px 0px;
+    bottom: 0;
+    padding-bottom: 40px;
+}
+.main-all .colum-list-products .tab-filter li{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: #555A77;
+    border-bottom: 0.5px solid #ACAFC3;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.main-all .colum-list-products .tab-filter li .amount-check{
+    align-self: self-start;
+    margin-left: auto;
+}
 
+
+.main-all .colum-list-products .tab-filter li .amount-check  input[type=checkbox] {
+    position: relative;
+    cursor: pointer;
+    margin-left: 19px;
+    transform: translateX(-100%)
+}
+
+.main-all .colum-list-products .tab-filter li .amount-check  input[type=checkbox]:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 0;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ACAFC3;
+    border-radius: 5px;
+}
+
+.main-all .colum-list-products .tab-filter li .amount-check  input[type=checkbox]:checked:after {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 14px;
+    border: 2px solid #DBAA53;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    top: 2px;
+    left: 7px;
+}
+.main-all .colum-list-products .checkbox-filter:checked~.tab-filter{
+    display: block;
+}
+.main-all .colum-list-products .tab-filter .btns{
+    width: 90%;
+    display: flex;
+    margin: auto;
+    margin-top: 60px;
+    justify-content: space-between;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.05em;
+    color: #333647;
+}
+.main-all .colum-list-products .tab-filter .btns .btn-close-mobile{
+    border: 1px solid #ACAFC3;
+    display: block;
+    height: 40.49px;
+    display: flex;
+    width: 124px;
+}
+/* -------------------------------------------- */
+.main-all .colum-list-products .tab-filter .title-filter-detail .price-input {
+    display: none;
+}
+
+.main-all .colum-list-products .tab-filter .title-filter-detail{
+    width: 80%;
+    margin: auto;
+    margin-top: 60px;
+}
+.main-all .colum-list-products .tab-filter .title-filter-detail .range-wrap {
+    width: 100%;
+    position: relative;
+}
+
+.main-all .colum-list-products .tab-filter .title-filter-detail .range-value-price {
+    position: absolute;
+    top: -50%;
+    width: 30%;
+    transform: translateY(-200%);
+}
+
+.main-all .colum-list-products .tab-filter .title-filter-detail .range-value-price span {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    text-align: center;
+    background: #043CA0;
+    display: block;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 5px;
+    height: 19px;
+}
+/* -------------------------- */
 .main-all .colum-list-products .amount-products {
     width: 156px;
     height: 30px;
@@ -457,6 +597,7 @@ input[type="range"]::-moz-range-thumb {
     display: block;
     margin: 0 auto;
     margin-top: 10px;
+    height: 60%;
 }
 
 .main-all .colum-list-products .products-list .card-product .title-product {
@@ -542,6 +683,10 @@ input[type="range"]::-moz-range-thumb {
     line-height: 23px;
     letter-spacing: -0.02em;
     color: #000000;
+}
+
+.main-all .colum-list-products .number-page .number-page{
+    
 }
 
 .main-all .colum-list-products .number-page .next {
@@ -707,7 +852,11 @@ input[type="range"]::-moz-range-thumb {
         line-height: 11px;
         letter-spacing: -0.02em;
     }
-
+    .main-all .colum-list-products .number-page {
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: -0.02em;
+    }
     .main-all .colum-list-products .number-page .number {
         font-size: 16px;
         line-height: 19px;

@@ -8,6 +8,7 @@ import Cart from "./pages/Cart";
 import Knowledge from "./pages/Knowledge";
 import ProductDetail from "./pages/ProductDetail";
 import KnowledgeDetail from "./pages/KnowledgeDetail";
+import ListProductNew from "./pages/ListProductNew";
 import {
   Routes,
   Route,
@@ -19,6 +20,7 @@ function App() {
       <Route path="/" element={<Home />}/>
       <Route path="/aboutus" element={<AboutUS />}/>
       <Route path="/listproduct" element={<ListProduct />}/>
+      <Route path="/listproductnew" element={<ListProductNew />}/>
       <Route path="/paydetail" element={<PayDetail />}/>
       <Route path="/paysuccess" element={<PaySuccess />}/>
       <Route path="/cart" element={<Cart />}/>

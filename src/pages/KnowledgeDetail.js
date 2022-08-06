@@ -1,8 +1,68 @@
 import Header from "../components/Header";
 import "../css/KnowledgeDetail.css";
-
+import callApi from "../api/ApiSevice.js";
+import React from "react";
+import { useState, useEffect } from "react";
+import format from "../sevices/FormatPrice.js";
+import parse from "html-react-parser";
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
+import { Link } from "react-router-dom";
+const GetURLParameter = (sParam) => {
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split("&");
+  for (var i = 0; i < sURLVariables.length; i++) {
+    var sParameterName = sURLVariables[i].split("=");
+    if (sParameterName[0] === sParam) {
+      return sParameterName[1].toString();
+    }
+  }
+};
+function formatDate(date) {
+  return new Date(date).toISOString().split("T")[0];
+}
 function KnowledgeDetail() {
- 
+  const [knowledgeDetail, setKnowledgeDetail] = React.useState({});
+  const [detail, setDetail] = React.useState("");
+  const [day, setDay] = React.useState("");
+  const loadKnowledgeDetail = () => {
+    const id = GetURLParameter("id");
+    callApi(`api/knowledge/getOneKnowled?id=${id}`, "GET")
+      .then((res) => {
+        setKnowledgeDetail(res.data.data);
+        setDetail(res.data.data.detail);
+        setDay(formatDate(res.data.data.createdAt));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [listProduct, setListProduct] = React.useState([]);
+  const loadListProduct = () => {
+    callApi(`api/product/getProductBestSell?limit=4&skip=1&increase=-1`, "GET")
+      .then((res) => {
+        setListProduct(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [listKnowledge, setListKnowledge] = React.useState([]);
+  const LoadListKnowledge = () => {
+    callApi(`api/knowledge/getKnowledgeAll?limit=3&skip=1`, "GET")
+      .then((res) => {
+        setListKnowledge(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    loadKnowledgeDetail();
+    loadListProduct();
+    LoadListKnowledge();
+  }, []);
   return (
     <>
       <Header></Header>
@@ -12,148 +72,58 @@ function KnowledgeDetail() {
             <div className="related-product-table-title">
               Sản phẩm liên quan
             </div>
-            <div className="card-table">
-              <img
-                src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                alt=""
-              />
-              <div className="title-table">Tượng Phật tổ gỗ trầm</div>
-              <div className="price-table">1.990.000 VND</div>
-            </div>
-            <div className="card-table">
-              <img
-                src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                alt=""
-              />
-              <div className="title-table">Tượng Phật tổ gỗ trầm</div>
-              <div className="price-table">1.990.000 VND</div>
-            </div>
-            <div className="card-table">
-              <img
-                src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                alt=""
-              />
-              <div className="title-table">Tượng Phật tổ gỗ trầm</div>
-              <div className="price-table">1.990.000 VND</div>
-            </div>
-            <div className="card-table">
-              <img
-                src={require("../img/unsplash_HJk_TLFW1Yw (1).png")}
-                alt=""
-              />
-              <div className="title-table">Tượng Phật tổ gỗ trầm</div>
-              <div className="price-table">1.990.000 VND</div>
-            </div>
+            {listProduct.map((data) => {
+              return (
+                <Link to={"/productdetail?id=" + data._id}>
+                  <div className="card-table">
+                    <img src={data.img[0]} alt="" />
+                    <div className="title-table">{data.name}</div>
+                    <div className="price-table">{format(data.price)} VND</div>
+                  </div>
+                </Link >
+              );
+            })}
           </div>
         </div>
         <div className="main-knowledge-detail-column2">
-          <div className="title">
-            Cách phân biệt trầm hương chất lượng với trầm hương giả
+          <div className="title">{knowledgeDetail.name}</div>
+          <div className="time-author">
+            Đăng vào {day} bởi {knowledgeDetail.author}
           </div>
-          <div className="time-author">Đăng vào 03/03/2022 bởi Tâm Tâm</div>
           <div className="line"></div>
-          <div className="detail">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id
-              sed euismod volutpat mi. Nisl porta ultrices sed enim, urna. At ut
-              diam diam ultricies blandit. Pharetra porttitor eget mauris,
-              turpis. Tincidunt est eu proin id ut. Urna amet erat integer
-              interdum pretium.
-            </p>
-
-            <p>
-              {" "}
-              Ultrices sed tellus tincidunt dui justo bibendum. Eu viverra purus
-              et dignissim ipsum. Scelerisque facilisis rhoncus, volutpat
-              fringilla eget sit scelerisque et. Mi at ac eu mauris. Amet amet
-              quis lobortis tincidunt dictum volutpat eget est. Ullamcorper a
-              vitae habitasse volutpat. Turpis est lectus massa consequat, odio.
-              Urna, mauris accumsan, posuere fames sed in sagittis. Nulla nunc
-              ultricies tellus velit ullamcorper aenean quis.
-            </p>
-
-            <p>
-              Faucibus sed egestas integer leo. Nec faucibus mi dolor magna
-              consequat nibh sem dolor. Maecenas vestibulum eget tempor lacus
-              cursus. Euismod convallis nunc turpis mi morbi eu tincidunt lectus
-              id. Donec orci tellus leo, mi quis. In pulvinar elit eget sed eget
-              libero, nibh enim, facilisis. Facilisis nec sed lacus turpis et in
-              commodo a. Ac suspendisse pellentesque pretium suscipit in
-              sollicitudin laoreet. Egestas consectetur quam amet, cras
-              porttitor cras quisque sed elit. Tristique ante eu nulla orci
-              proin. Sed scelerisque nisi fames iaculis semper.
-            </p>
-            <img src={require("../img/Rectangle 101.png")} alt="" />
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id
-              sed euismod volutpat mi. Nisl porta ultrices sed enim, urna. At ut
-              diam diam ultricies blandit. Pharetra porttitor eget mauris,
-              turpis. Tincidunt est eu proin id ut. Urna amet erat integer
-              interdum pretium.
-            </p>
-
-            <p>
-              Ultrices sed tellus tincidunt dui justo bibendum. Eu viverra purus
-              et dignissim ipsum. Scelerisque facilisis rhoncus, volutpat
-              fringilla eget sit scelerisque et. Mi at ac eu mauris. Amet amet
-              quis lobortis tincidunt dictum volutpat eget est. Ullamcorper a
-              vitae habitasse volutpat. Turpis est lectus massa consequat, odio.
-              Urna, mauris accumsan, posuere fames sed in sagittis. Nulla nunc
-              ultricies tellus velit ullamcorper aenean quis.
-            </p>
-
-            <p>
-              Faucibus sed egestas integer leo. Nec faucibus mi dolor magna
-              consequat nibh sem dolor. Maecenas vestibulum eget tempor lacus
-              cursus. Euismod convallis nunc turpis mi morbi eu tincidunt lectus
-              id. Donec orci tellus leo, mi quis. In pulvinar elit eget sed eget
-              libero, nibh enim, facilisis. Facilisis nec sed lacus turpis et in
-              commodo a. Ac suspendisse pellentesque pretium suscipit in
-              sollicitudin laoreet. Egestas consectetur quam amet, cras
-              porttitor cras quisque sed elit. Tristique ante eu nulla orci
-              proin. Sed scelerisque nisi fames iaculis semper.
-            </p>
-          </div>
+          <div className="detail">{parse(detail)}</div>
           <div className="line-mobile"></div>
           <div className="list-icons">
             <img src={require("../img/eva_facebook-fill-yellow.png")} alt="" />
             <img
               src={require("../img/akar-icons_instagram-fill-yellow.png")}
               alt=""
-              style={{margin: "auto"}}
+              style={{ margin: "auto" }}
             />
             <img
               src={require("../img/akar-icons_youtube-fill-yellow.png")}
               alt=""
-              style={{margin: "auto"}}
+              style={{ margin: "auto" }}
             />
           </div>
           <p className="tag">
-            Tag: &ensp; <i>nhan trầm, trầm hương, trầm nụ</i>
+            Tag: &ensp; <i>{knowledgeDetail.tag}</i>
           </p>
           <div className="related-posts">
             <div className="related-posts-title">BÀI VIẾT LIÊN QUAN</div>
             <div className="related-posts-line"></div>
           </div>
           <div className="related-posts-list">
-            <div className="card">
-              <img src={require("../img/unsplash_UzDimV2GzFA.png")} alt="" />
-              <div className="title">
-                Cách nhận biết giá trị và chất lượng của trầm hương
-              </div>
-            </div>
-            <div className="card">
-              <img src={require("../img/unsplash_UzDimV2GzFA.png")} alt="" />
-              <div className="title">
-                Cách nhận biết giá trị và chất lượng của trầm hương
-              </div>
-            </div>
-            <div className="card">
-              <img src={require("../img/unsplash_UzDimV2GzFA.png")} alt="" />
-              <div className="title">
-                Cách nhận biết giá trị và chất lượng của trầm hương
-              </div>
-            </div>
+            {listKnowledge.map((data) => {
+              return (
+                <div className="card">
+                  <Link to={"/knowledgedetail?id=" + data._id}>
+                    <img src={data.img[0]} alt="" />
+                    <div className="title">{data.name}</div>
+                  </Link >
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -161,7 +131,11 @@ function KnowledgeDetail() {
         className="img-logo"
         src={require("../img/Mask group (3).png")}
         alt=""
-        style={{position: "absolute", transform: "translateY(-100%)", width: "30%"}}
+        style={{
+          position: "absolute",
+          transform: "translateY(-100%)",
+          width: "30%",
+        }}
       />
       <div className="list-chat">
         <img
@@ -176,12 +150,15 @@ function KnowledgeDetail() {
             className="icon-btn-chat"
             src={require("../img/dashicons_arrow-left-alt2 (2).png")}
             alt=""
-            style={{display: "block", margin: "auto", marginTop: "10px"}}
+            style={{ display: "block", margin: "auto", marginTop: "10px" }}
           />
         </div>
       </div>
 
-      <div className="knowledge-detail-list-product" style={{marginTop: "60px"}}>
+      <div
+        className="knowledge-detail-list-product"
+        style={{ marginTop: "60px" }}
+      >
         <div className="title">
           <h4 className="title-type-product">SẢN PHẨM LIÊN QUAN </h4>
         </div>
@@ -191,32 +168,41 @@ function KnowledgeDetail() {
         </div>
 
         <div className="mobile">
-          <div className="owl-carousel owl-theme list-product list-product-jewels">
-            <div className="list-product-card">
-              <img src={require("../img/Rectangle 43 (1).png")} alt="" />
-              <div className="title-product">Nhang trầm hương</div>
-              <div className="price-product">1.990.000 VND</div>
-            </div>
-            <div className="list-product-card">
-              <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-              <div className="title-product">Nhang trầm hương</div>
-              <div className="price-product">1.990.000 VND</div>
-            </div>
-            <div className="list-product-card">
-              <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-              <div className="title-product">Nhang trầm hương</div>
-              <div className="price-product">1.990.000 VND</div>
-            </div>
-            <div className="list-product-card">
-              <img src={require("../img/unsplash_x8zV3NNPuAk.png")} alt="" />
-              <div className="title-product">Nhang trầm hương</div>
-              <div className="price-product">1.990.000 VND</div>
-            </div>
+          <div className="list-product">
+            <OwlCarousel
+              items={1.4}
+              className="owl-theme owl-carousel"
+              loop={true}
+              nav={true}
+              dots={false}
+              margin={5}
+              navText={[
+                '<div class="home-btn-left-mobile home-btn-next-page-mobile"><img class="img-btn-left" src="./img/Vector-left.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                '<div class="home-btn-right-mobile home-btn-next-page-mobile"><img class="img-btn-right" src="./img/Vector-right.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+              ]}
+            >
+              {listProduct.map((data) => {
+                return (
+                  <Link to={"/productdetail?id=" + data._id}>
+                    <div className="list-product-card">
+                      <img src={data.img[0]} alt="" />
+                      <div className="title-product">{data.name}</div>
+                      <div className="price-product">
+                        {format(data.price)} VND
+                      </div>
+                    </div>
+                  </Link >
+                );
+              })}
+            </OwlCarousel>
           </div>
         </div>
       </div>
 
-      <div className="knowledge-detail-list-product" style={{marginTop: "39px", marginBottom: "100px"}}>
+      <div
+        className="knowledge-detail-list-product"
+        style={{ marginTop: "39px", marginBottom: "100px" }}
+      >
         <div className="title">
           <h4 className="title-type-product">BÀI VIẾT LIÊN QUAN </h4>
         </div>
@@ -225,26 +211,31 @@ function KnowledgeDetail() {
           <div className="line-silver"></div>
         </div>
 
-        <div className="mobile" style={{marginTop: "18px"}}>
-          <div className="owl-carousel home-knowledge-for-product home-knowledge-for-product-mobile">
-            <div className="card-knowledge">
-              <img src={require("../img/unsplash_UzDimV2GzFA.png")} alt="" />
-              <div className="title-knowledge">
-                Cách nhận biết giá trị và chất lượng của trầm hương
-              </div>
-            </div>
-            <div className="card-knowledge">
-              <img src={require("../img/unsplash_p4Cq-2phCTg.png")} alt="" />
-              <div className="title-knowledge">
-                Kiến thức cho người mới tìm hiểu trầm hương
-              </div>
-            </div>
-            <div className="card-knowledge">
-              <img src={require("../img/unsplash_IoKbN6Nghk4.png")} alt="" />
-              <div className="title-knowledge">
-                Ý nghĩ phong thủy của khói thác trầm hương là gì?
-              </div>
-            </div>
+        <div className="mobile" style={{ marginTop: "18px" }}>
+          <div className="home-knowledge-for-product">
+            <OwlCarousel
+              className="owl-carousel"
+              loop={true}
+              margin={5}
+              dots={false}
+              items={1.4}
+            >
+              {listKnowledge.map((data) => {
+                return (
+                  <div className="card-knowledge">
+                    <Link to={"/knowledgedetail?id=" + data._id}>
+                      <img src={data.img[0]} alt="" />
+                      <div
+                        className="title-knowledge"
+                        style={{ color: "#000000" }}
+                      >
+                        {data.name}
+                      </div>
+                    </Link >
+                  </div>
+                );
+              })}
+            </OwlCarousel>
           </div>
         </div>
       </div>

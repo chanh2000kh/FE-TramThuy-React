@@ -3,11 +3,13 @@ import callApi from "../api/ApiSevice.js";
 // import { Helmet } from "react-helmet";
 import React from "react";
 import { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import format from "../sevices/FormatPrice.js";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import Rating from "@mui/material/Rating";
+import { FlashOnRounded } from "@mui/icons-material";
 function Home() {
   const [incense, setIncense] = React.useState([]);
   const [incenseNext, setIncenseNext] = React.useState(true);
@@ -17,13 +19,53 @@ function Home() {
   const [statueNext, setStatueNext] = React.useState(true);
   const [urn, setUrn] = React.useState([]);
   const [urnNext, setUrnNext] = React.useState(true);
+  const [listProductBestSold, setListProductBestSold] = React.useState([]);
+  const loadListProductBestSold = () => {
+    callApi(`api/product/getProductBestSell?limit=4&skip=1&increase=-1`, "GET")
+      .then((res) => {
+        setListProductBestSold(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [listKnowledge, setListKnowledge] = React.useState([]);
+  const LoadListKnowledge = () => {
+    callApi(`api/knowledge/getKnowledgeAll?limit=3&skip=1`, "GET")
+      .then((res) => {
+        setListKnowledge(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [listProductNew, setListProductNew] = React.useState([]);
+  const loadListProductNew = () => {
+    callApi(`api/product/getProductAll?limit=6&skip=1`, "GET")
+      .then((res) => {
+        setListProductNew(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [listReviewNew, setListReviewNew] = React.useState([]);
+  const loadListReviewNew = () => {
+    callApi(`api/review/getAllReviewNew?limit=3&skip=1`, "GET")
+      .then((res) => {
+        setListReviewNew(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     callApi(
       `api/product/getProductByTypeId?id=62cd7c7a0d2a3b3e78ed4438&limit=8&skip=1&min=0&max=10000000`,
       "GET"
     )
       .then((res) => {
-        setIncense(res.data.data);
+        setIncense(res.data.data.product);
       })
       .catch((err) => {
         console.log(err);
@@ -34,7 +76,7 @@ function Home() {
       "GET"
     )
       .then((res) => {
-        setJewels(res.data.data);
+        setJewels(res.data.data.product);
       })
       .catch((err) => {
         console.log(err);
@@ -45,7 +87,7 @@ function Home() {
       "GET"
     )
       .then((res) => {
-        setStatue(res.data.data);
+        setStatue(res.data.data.product);
       })
       .catch((err) => {
         console.log(err);
@@ -56,12 +98,46 @@ function Home() {
       "GET"
     )
       .then((res) => {
-        setUrn(res.data.data);
+        setUrn(res.data.data.product);
       })
       .catch((err) => {
         console.log(err);
       });
+    loadListProductBestSold();
+    LoadListKnowledge();
+    loadListProductNew();
+    loadListReviewNew();
   }, []);
+  const [currentIndex, setCurrentIndex] = React.useState(1);
+  const nextReview = (i) => {
+    var listHomeGallery = document.querySelectorAll(".home-gallery-item");
+    //remove home-gallery-item-1,2,3
+    listHomeGallery.forEach((item) => {
+      item.classList.remove("home-gallery-item-1");
+      item.classList.remove("home-gallery-item-2");
+      item.classList.remove("home-gallery-item-3");
+    });
+    if (i > 0 && i < listHomeGallery.length - 1) {
+      //add home-gallery-item-1,2,3
+      listHomeGallery[i - 1].classList.add("home-gallery-item-1");
+      listHomeGallery[i].classList.add("home-gallery-item-2");
+      listHomeGallery[i + 1].classList.add("home-gallery-item-3");
+    }
+    if (i == 0) {
+      //add home-gallery-item-1,2,3
+      listHomeGallery[listHomeGallery.length - 1].classList.add(
+        "home-gallery-item-1"
+      );
+      listHomeGallery[i].classList.add("home-gallery-item-2");
+      listHomeGallery[i + 1].classList.add("home-gallery-item-3");
+    }
+    if (i == listHomeGallery.length - 1) {
+      //add home-gallery-item-1,2,3
+      listHomeGallery[i - 1].classList.add("home-gallery-item-1");
+      listHomeGallery[i].classList.add("home-gallery-item-2");
+      listHomeGallery[0].classList.add("home-gallery-item-3");
+    }
+  };
   return (
     <>
       <input
@@ -168,17 +244,31 @@ function Home() {
             </a>
           </div>
           <div className="line"></div>
-          <li className="">TƯỢNG</li>
-          <div className="line"></div>
-          <li className="">LƯ XÔNG TRẦM</li>
-          <div className="line"></div>
-          <li className="">HÀNG MỚI</li>
-          <div className="line"></div>
-          <li className="">KIẾN THỨC</li>
-          <div className="line"></div>
-          <a href="/aboutus" className="disable">
-            <li className="">LIÊN HỆ</li>
+          <a
+            href="/listproduct?id=62cd7c4e0d2a3b3e78ed4434"
+            className="disable"
+          >
+            <li className="">TƯỢNG</li>
           </a>
+          <div className="line"></div>
+          <a
+            href="/listproduct?id=62cd7cbf0d2a3b3e78ed443c"
+            className="disable"
+          >
+            <li className="">LƯ XÔNG TRẦM</li>
+          </a>
+          <div className="line"></div>
+          <Link to="/listproductnew" className="disable">
+            <li className="">HÀNG MỚI</li>
+          </Link>
+          <div className="line"></div>
+          <Link to="/knowledge" className="disable">
+            <li className="">KIẾN THỨC</li>
+          </Link>
+          <div className="line"></div>
+          <Link to="/aboutus" className="disable">
+            <li className="">LIÊN HỆ</li>
+          </Link>
           <div className="line"></div>
           <div className="icons-mobile">
             <img
@@ -265,13 +355,13 @@ function Home() {
               alt=""
               style={{ marginLeft: "40.93px" }}
             />
-            <a href="/cart">
+            <Link to="/cart">
               <img
                 className="shoping"
                 src={require("../img/ant-design_shopping-outlined.png")}
                 alt=""
               />
-            </a>
+            </Link>
           </div>
           <div className="">
             <img
@@ -283,7 +373,7 @@ function Home() {
               <div className="header1" style={{ zIndex: 3 }}>
                 <div>TRẦM - NHANG</div>
                 <ul className="sub-menu">
-                  <a
+                  <a 
                     href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=1"
                     style={{ color: "#7C82A1" }}
                   >
@@ -350,14 +440,16 @@ function Home() {
               >
                 <div className="header1">LƯ XÔNG TRẦM</div>
               </a>
-              <div className="header1">HÀNG MỚI</div>
+              <Link to="/listproductnew" className="disable">
+                <div className="header1">HÀNG MỚI</div>
+              </Link>
 
-              <a href="/knowledge" className="disable">
+              <Link to="/knowledge" className="disable">
                 <div className="header1">KIẾN THỨC</div>
-              </a>
-              <a href="/aboutus" className="disable">
+              </Link>
+              <Link to="/aboutus" className="disable">
                 <div className="header1">LIÊN HỆ</div>
-              </a>
+              </Link>
             </div>
             <div className="line"></div>
           </div>
@@ -413,40 +505,48 @@ function Home() {
         </div>
       </div>
       <div className="type-product-mobile">
-        <div className="owl-carousel home-type-product2">
-          <div className="card">
-            <img
-              src={require("../img/istockphoto-1237854712-612x612-removebg-preview 1.png")}
-              alt=""
-              style={{ width: "149.2px", height: "99px" }}
-            />
-            <h4 className="title">TRẦM - NHANG</h4>
-          </div>
-          <div className="card">
-            <img
-              src={require("../img/303171cb0d41c7e01f1c3025d03fffe6-removebg-preview 1.png")}
-              alt=""
-              style={{ width: "149.2px", height: "99px" }}
-            />
-            <h4 className="title">TRANG SỨC</h4>
-          </div>
-          <div className="card">
-            <img
-              src={require("../img/large-sitting-buddha-statue-solid-wood-carved-hand-50cm-removebg-preview 1.png")}
-              alt=""
-              style={{ width: "149.2px", height: "99px" }}
-            />
-            <h4 className="title">TƯỢNG</h4>
-          </div>
-          <div className="card">
-            <img
-              className="img"
-              src={require("../img/S-4985-2-removebg-preview 1.png")}
-              alt=""
-              style={{ width: "149.2px", height: "99px" }}
-            />
-            <h4 className="title">LƯ XÔNG</h4>
-          </div>
+        <div className="home-type-product2">
+          <OwlCarousel
+            className="owl-carousel"
+            loop={true}
+            margin={0}
+            items={1.2}
+            center={false}
+          >
+            <div className="card">
+              <img
+                src={require("../img/istockphoto-1237854712-612x612-removebg-preview 1.png")}
+                alt=""
+                style={{ width: "149.2px", height: "99px" }}
+              />
+              <h4 className="title">TRẦM - NHANG</h4>
+            </div>
+            <div className="card">
+              <img
+                src={require("../img/303171cb0d41c7e01f1c3025d03fffe6-removebg-preview 1.png")}
+                alt=""
+                style={{ width: "149.2px", height: "99px" }}
+              />
+              <h4 className="title">TRANG SỨC</h4>
+            </div>
+            <div className="card">
+              <img
+                src={require("../img/large-sitting-buddha-statue-solid-wood-carved-hand-50cm-removebg-preview 1.png")}
+                alt=""
+                style={{ width: "149.2px", height: "99px" }}
+              />
+              <h4 className="title">TƯỢNG</h4>
+            </div>
+            <div className="card">
+              <img
+                className="img"
+                src={require("../img/S-4985-2-removebg-preview 1.png")}
+                alt=""
+                style={{ width: "149.2px", height: "99px" }}
+              />
+              <h4 className="title">LƯ XÔNG</h4>
+            </div>
+          </OwlCarousel>
         </div>
       </div>
 
@@ -542,73 +642,38 @@ function Home() {
             <div className="line"></div>
           </div>
           <div className="products">
-            <div className="card">
-              <img
-                className="img"
-                src={require("../img/Rectangle 9.png")}
-                alt=""
-              />
-              <div className="title-product">Lư xông trầm Tây Tạng mini</div>
-            </div>
-            <div className="card">
-              <img
-                className="img"
-                src={require("../img/Rectangle 10.png")}
-                alt=""
-              />
-              <div className="title-product">Chuỗi hạt gỗ trầm</div>
-            </div>
-            <div className="card">
-              <img
-                className="img"
-                src={require("../img/Rectangle 11.png")}
-                alt=""
-              />
-              <div className="title-product">Gỗ táo nhập khẩu châu ÂU</div>
-            </div>
-            <div className="card">
-              <img
-                className="img"
-                src={require("../img/Rectangle 12.png")}
-                alt=""
-              />
-              <div className="title-product">Nhang thơm gỗ đàn hương</div>
-            </div>
+            {listProductBestSold.map((data) => {
+              return (
+                <div className="card">
+                  <Link to={"/productdetail?id=" + data._id}>
+                    <img className="img" src={data.img[0]} alt="" />
+                    <div className="title-product">{data.name}</div>
+                  </Link>
+                </div>
+              );
+            })}
           </div>
 
-          <div className="products1 owl-carousel">
-            <div className="card">
-              <img
-                className="img"
-                src={require("../img/Rectangle 9.png")}
-                alt=""
-              />
-              <div className="title-product">Lư xông trầm Tây Tạng mini</div>
-            </div>
-            <div className="card">
-              <img
-                className="img"
-                src={require("../img/Rectangle 10.png")}
-                alt=""
-              />
-              <div className="title-product">Chuỗi hạt gỗ trầm</div>
-            </div>
-            <div className="card">
-              <img
-                className="img"
-                src={require("../img/Rectangle 11.png")}
-                alt=""
-              />
-              <div className="title-product">Gỗ táo nhập khẩu châu ÂU</div>
-            </div>
-            <div className="card">
-              <img
-                className="img"
-                src={require("../img/Rectangle 12.png")}
-                alt=""
-              />
-              <div className="title-product">Nhang thơm gỗ đàn hương</div>
-            </div>
+          <div className="products1">
+            <OwlCarousel
+              className="owl-carousel"
+              center={true}
+              loop={true}
+              margin={20}
+              items={1.4}
+              autoplayTimeout={1500}
+            >
+              {listProductBestSold.map((data) => {
+                return (
+                  <div className="card">
+                    <Link to={"/productdetail?id=" + data._id}>
+                      <img className="img" src={data.img[0]} alt="" />
+                      <div className="title-product">{data.name}</div>
+                    </Link>
+                  </div>
+                );
+              })}
+            </OwlCarousel>
           </div>
 
           <div className="" style={{ width: "100%" }}>
@@ -623,88 +688,56 @@ function Home() {
               <div className="line"></div>
             </div>
           </div>
-          <div className="owl-carousel list-new-product">
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Lư xông trầm Tây Tạng cỡ lớn</div>
-                <div className="">1.990.000 VND</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Lư xông trầm Tây Tạng cỡ lớn</div>
-                <div className="">1.990.000 VND</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Lư xông trầm Tây Tạng cỡ lớn</div>
-                <div className="">1.990.000 VND</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Lư xông trầm Tây Tạng cỡ lớn</div>
-                <div className="">1.990.000 VND</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 32.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Vòng tay gỗ đàn hương</div>
-                <div className="">1.990.000 VND</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Gỗ táo thơm</div>
-                <div className="">1.990.000 VND</div>
-              </div>
-            </div>
+          <div className="list-new-product">
+            <OwlCarousel
+              className="owl-carousel"
+              center={true}
+              items={4}
+              loop={true}
+              margin={10}
+              autoplay={true}
+              autoplayTimeout={1500}
+            >
+              {listProductNew.map((data) => {
+                return (
+                  <div className="item card">
+                    <Link to={"/productdetail?id=" + data._id}>
+                      <img src={data.img[0]} alt="" />
+                      <div className="title-new-product">
+                        <div className="">{data.name}</div>
+                        <div className="">{format(data.price)} VND</div>
+                      </div>
+                    </Link>
+                  </div>
+                );
+              })}
+            </OwlCarousel>
           </div>
 
-          <div className="owl-carousel list-new-product1">
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Lư xông trầm Tây Tạng cỡ lớn</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Lư xông trầm Tây Tạng cỡ lớn</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Lư xông trầm Tây Tạng cỡ lớn</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Lư xông trầm Tây Tạng cỡ lớn</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 32.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Vòng tay gỗ đàn hương</div>
-              </div>
-            </div>
-            <div className="item card">
-              <img src={require("../img/Rectangle 31.png")} alt="" />
-              <div className="title-new-product">
-                <div className="">Gỗ táo thơm</div>
-              </div>
-            </div>
+          <div className="list-new-product1">
+            <OwlCarousel
+              className="owl-carousel"
+              center={true}
+              loop={true}
+              margin={20}
+              items={1.4}
+              autoplay={true}
+              autoplayTimeout={1500}
+            >
+              {listProductNew.map((data) => {
+                return (
+                  <div className="item card">
+                    <Link to={"/productdetail?id=" + data._id}>
+                      <img src={data.img[0]} alt="" />
+                      <div className="title-new-product">
+                        <div className="">{data.name}</div>
+                        <div className="">{format(data.price)} VND</div>
+                      </div>
+                    </Link>
+                  </div>
+                );
+              })}
+            </OwlCarousel>
           </div>
         </div>
         <img
@@ -762,13 +795,13 @@ function Home() {
                 if (index < 4 && jewelsNext == true)
                   return (
                     <div className="item list-product-card">
-                      <a href={"/productdetail?id=" + data._id}>
+                      <Link to={"/productdetail?id=" + data._id}>
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
                         <div className="price-product">
                           {format(data.price)} VND
                         </div>
-                      </a>
+                      </Link>
                     </div>
                   );
 
@@ -802,7 +835,7 @@ function Home() {
               >
                 {jewels.map((data) => {
                   return (
-                    <a href={"/productdetail?id=" + data._id}>
+                    <Link to={"/productdetail?id=" + data._id}>
                       <div className="list-product-card">
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
@@ -810,7 +843,7 @@ function Home() {
                           {format(data.price)} VND
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   );
                 })}
               </OwlCarousel>
@@ -861,13 +894,13 @@ function Home() {
                 if (i < 4 && incenseNext == true)
                   return (
                     <div className="item list-product-card">
-                      <a href={"/productdetail?id=" + data._id}>
+                      <Link to={"/productdetail?id=" + data._id}>
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
                         <div className="price-product">
                           {format(data.price)} VND
                         </div>
-                      </a>
+                      </Link>
                     </div>
                   );
 
@@ -901,7 +934,7 @@ function Home() {
               >
                 {incense.map((data) => {
                   return (
-                    <a href={"/productdetail?id=" + data._id}>
+                    <Link to={"/productdetail?id=" + data._id}>
                       <div className="list-product-card">
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
@@ -909,7 +942,7 @@ function Home() {
                           {format(data.price)} VND
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   );
                 })}
               </OwlCarousel>
@@ -1010,24 +1043,26 @@ function Home() {
                 if (i < 4 && urnNext == true)
                   return (
                     <div className="item list-product-card">
-                      <a href={"/productdetail?id=" + data._id}>
+                      <Link to={"/productdetail?id=" + data._id}>
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
                         <div className="price-product">
                           {format(data.price)} VND
                         </div>
-                      </a>
+                      </Link>
                     </div>
                   );
 
                 if (i > 3 && urnNext == false)
                   return (
-                    <div className="list-product-card">
-                      <img src={require("../img/Rectangle 31.png")} alt="" />
-                      <div className="title-product">
-                        Lư xông trầm bằng đồng
-                      </div>
-                      <div className="price-product">1.990.000 VND</div>
+                    <div className="item list-product-card">
+                      <Link to={"/productdetail?id=" + data._id}>
+                        <img src={data.img[0]} alt="" />
+                        <div className="title-product">{data.name}</div>
+                        <div className="price-product">
+                          {format(data.price)} VND
+                        </div>
+                      </Link>
                     </div>
                   );
               })}
@@ -1050,7 +1085,7 @@ function Home() {
               >
                 {urn.map((data) => {
                   return (
-                    <a href={"/productdetail?id=" + data._id}>
+                    <Link to={"/productdetail?id=" + data._id}>
                       <div className="list-product-card">
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
@@ -1058,7 +1093,7 @@ function Home() {
                           {format(data.price)} VND
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   );
                 })}
               </OwlCarousel>
@@ -1121,13 +1156,13 @@ function Home() {
                 if (index < 4 && statueNext == true)
                   return (
                     <div className="item list-product-card">
-                      <a href={"/productdetail?id=" + data._id}>
+                      <Link to={"/productdetail?id=" + data._id}>
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
                         <div className="price-product">
                           {format(data.price)} VND
                         </div>
-                      </a>
+                      </Link>
                     </div>
                   );
 
@@ -1161,7 +1196,7 @@ function Home() {
               >
                 {statue.map((data) => {
                   return (
-                    <a href={"/productdetail?id=" + data._id}>
+                    <Link to={"/productdetail?id=" + data._id}>
                       <div className="list-product-card">
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
@@ -1169,7 +1204,7 @@ function Home() {
                           {format(data.price)} VND
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   );
                 })}
               </OwlCarousel>
@@ -1241,154 +1276,43 @@ function Home() {
         </div>
         <div className="home-gallery">
           <div className="home-gallery-container">
-            <div
-              className="home-gallery-item home-gallery-item-1"
-              data-index="1"
-            >
-              <img
-                className="img-user"
-                src={require("../img/Ellipse 10 (1).png")}
-                alt=""
-              />
-              <div className="name-user">Nguyễn Văn A</div>
-              <div className="stars">
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector (1).png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-              </div>
-              <div className="comment-user">
-                “ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Tincidunt vivamus feugiat sed quisque id sit ut amet, ipsum
-              </div>
-              <div className="line-comment"></div>
-            </div>
-            <div
-              className="home-gallery-item home-gallery-item-2"
-              data-index="2"
-            >
-              <img
-                className="img-user"
-                src={require("../img/Ellipse 10.png")}
-                alt=""
-              />
-              <div className="name-user">Nguyễn Văn A</div>
-              <div className="stars">
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector (1).png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-              </div>
-              <div className="comment-user">
-                “ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Tincidunt vivamus feugiat sed quisque id sit ut amet, ipsum
-              </div>
-              <div className="line-comment"></div>
-            </div>
-            <div
-              className="home-gallery-item home-gallery-item-3"
-              data-index="3"
-            >
-              <img
-                className="img-user"
-                src={require("../img/Ellipse 10 (2).png")}
-                alt=""
-              />
-              <div className="name-user">Nguyễn Văn A</div>
-              <div className="stars">
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector.png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-                <img
-                  className="img-star"
-                  src={require("../img/Vector (1).png")}
-                  alt=""
-                  style={{ marginTop: "0" }}
-                />
-              </div>
-              <div className="comment-user">
-                “ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Tincidunt vivamus feugiat sed quisque id sit ut amet, ipsum
-              </div>
-              <div className="line-comment"></div>
-            </div>
+            {listReviewNew.map((data, i) => {
+              return (
+                <div
+                  className={`home-gallery-item home-gallery-item-${i + 1}`}
+                  data-index={i + 1}
+                  style={{ background: `url(${data.productList[0].img[0]})` }}
+                >
+                  <img className="img-user" src={data.img} alt="" />
+                  <div className="name-user">{data.name}</div>
+                  <div className="stars">
+                    <Rating
+                      name="read-only"
+                      value={data.star}
+                      readOnly
+                      style={{ color: "#FFFFFF" }}
+                    />
+                  </div>
+                  <div className="comment-user">“ {data.writeReview}</div>
+                  <div className="line-comment"></div>
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="home-gallery-btn-next-page">
-          <div className="home-gallery-btn-left">
+          <div
+            onClick={() => {
+              var calculate = currentIndex - 1;
+              setCurrentIndex(currentIndex - 1);
+              if (calculate < 0) {
+                setCurrentIndex(listReviewNew.length - 1);
+                calculate = listReviewNew.length - 1;
+              }
+              nextReview(calculate);
+            }}
+            className="home-gallery-btn-left"
+          >
             <img
               className="img-btn-left"
               src={require("../img/Vector-left.png")}
@@ -1396,7 +1320,18 @@ function Home() {
               style={{ margin: "auto", padding: "7px", display: "block" }}
             />
           </div>
-          <div className="home-gallery-btn-right">
+          <div
+            onClick={() => {
+              var calculate = currentIndex + 1;
+              setCurrentIndex(currentIndex + 1);
+              if (calculate > listReviewNew.length - 1) {
+                setCurrentIndex(0);
+                calculate = 0;
+              }
+              nextReview(calculate);
+            }}
+            className="home-gallery-btn-right"
+          >
             <img
               className="img-btn-right"
               src={require("../img/Vector-right.png")}
@@ -1418,13 +1353,13 @@ function Home() {
               src={require("../img/Mask group (1).png")}
               alt=""
             />
-            <a href="/aboutus">
+            <Link to="/aboutus">
               <img
                 className="img-about-us2"
                 src={require("../img/Asset 4@2x 1.png")}
                 alt=""
               />
-            </a>
+            </Link>
             <img
               className="img-about-us4"
               src={require("../img/Asset 5@2x 1.png")}
@@ -1438,9 +1373,9 @@ function Home() {
               Felis, ipsum consectetur amet mattis massa. Nunc feugiat nunc
               massa diam. Morbi vel ipsum amet tincidunt nascetur metus, in.
             </p>
-            <a href="/aboutus">
+            <Link to="/aboutus">
               <button className="btn-about-us">KHÁM PHÁ</button>
-            </a>
+            </Link>
             <img
               className="img-about-us3"
               src={require("../img/Mask group (2).png")}
@@ -1482,46 +1417,38 @@ function Home() {
         </div>
         <div className="pc">
           <div className="home-knowledge-for-product">
-            <div className="card-knowledge">
-              <img src={require("../img/unsplash_UzDimV2GzFA.png")} alt="" />
-              <div className="title-knowledge">
-                Cách nhận biết giá trị và chất lượng của trầm hương
-              </div>
-            </div>
-            <div className="card-knowledge">
-              <img src={require("../img/unsplash_p4Cq-2phCTg.png")} alt="" />
-              <div className="title-knowledge">
-                Kiến thức cho người mới tìm hiểu trầm hương
-              </div>
-            </div>
-            <div className="card-knowledge">
-              <img src={require("../img/unsplash_IoKbN6Nghk4.png")} alt="" />
-              <div className="title-knowledge">
-                Ý nghĩ phong thủy của khói thác trầm hương là gì?
-              </div>
-            </div>
+            {listKnowledge.map((data) => {
+              return (
+                <div className="card-knowledge">
+                  <Link to={"/knowledgedetail?id=" + data._id}>
+                    <img src={data.img[0]} alt="" />
+                    <div className="title-knowledge">{data.name}</div>
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="mobile">
-          <div className="owl-carousel home-knowledge-for-product home-knowledge-for-product-mobile">
-            <div className="card-knowledge">
-              <img src={require("../img/unsplash_UzDimV2GzFA.png")} alt="" />
-              <div className="title-knowledge">
-                Cách nhận biết giá trị và chất lượng của trầm hương
-              </div>
-            </div>
-            <div className="card-knowledge">
-              <img src={require("../img/unsplash_p4Cq-2phCTg.png")} alt="" />
-              <div className="title-knowledge">
-                Kiến thức cho người mới tìm hiểu trầm hương
-              </div>
-            </div>
-            <div className="card-knowledge">
-              <img src={require("../img/unsplash_IoKbN6Nghk4.png")} alt="" />
-              <div className="title-knowledge">
-                Ý nghĩ phong thủy của khói thác trầm hương là gì?
-              </div>
-            </div>
+          <div className="home-knowledge-for-product">
+            <OwlCarousel
+              className="owl-carousel"
+              loop={true}
+              margin={5}
+              dots={false}
+              items={1.4}
+            >
+              {listKnowledge.map((data) => {
+                return (
+                  <div className="card-knowledge">
+                    <Link to={"/knowledgedetail?id=" + data._id}>
+                      <img src={data.img[0]} alt="" />
+                      <div className="title-knowledge">{data.name}</div>
+                    </Link>
+                  </div>
+                );
+              })}
+            </OwlCarousel>
           </div>
         </div>
       </div>

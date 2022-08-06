@@ -47,6 +47,10 @@ function Header(body) {
         const log = document.getElementById("headeraboutus");
         log.style.borderBottom = "3px solid #000000";
       }
+      case 7: {
+        const log = document.getElementById("listproductnew");
+        log.style.borderBottom = "3px solid #000000";
+      }
     }
   }, []);
 
@@ -67,7 +71,7 @@ function Header(body) {
           />
         </label>
         <ul className="home-nav-list-mobile">
-        <li className="">
+          <li className="">
             <div className="">TRANG SỨC</div>
             <label
               htmlFor="check-1"
@@ -169,15 +173,17 @@ function Header(body) {
             <li className="">LƯ XÔNG TRẦM</li>
           </a>
           <div className="line"></div>
-          <li className="">HÀNG MỚI</li>
+          <Link to="/listproductnew" className="disable">
+            <li className="">HÀNG MỚI</li>
+          </Link>
           <div className="line"></div>
-          <a href="/knowledge" className="disable">
+          <Link to="/knowledge" className="disable">
             <li className="">KIẾN THỨC</li>
-          </a>
+          </Link>
           <div className="line"></div>
-          <a href="/aboutus" className="disable">
+          <Link to="/aboutus" className="disable">
             <li className="">LIÊN HỆ</li>
-          </a>
+          </Link>
           <div className="line"></div>
           <div className="icons-mobile">
             <img
@@ -242,13 +248,13 @@ function Header(body) {
               alt=""
               style={{ marginLeft: "40.93px" }}
             />
-            <a href="/cart">
+            <Link to="/cart">
               <img
                 className="shoping"
                 src={require("../img/ant-design_shopping-outlined (1).png")}
                 alt=""
               />
-            </a>
+            </Link>
           </div>
           <div className="">
             <label htmlFor="nav-mobile-input">
@@ -260,22 +266,25 @@ function Header(body) {
             </label>
 
             <div style={{ width: "211px", margin: "auto" }}>
-              <a href="/">
+              <Link to="/">
                 <img
                   className="logo"
                   src={require("../img/logo-yellow.png")}
                   alt=""
                 ></img>
-              </a>
+              </Link>
             </div>
 
-            <a href="/">
-              <img
-                className="logo-mobile"
-                src={require("../img/Mask group logo black.png")}
-                alt=""
-              />
-            </a>
+            <div style={{ width: "30%", margin: "auto" }}>
+              <Link to="/">
+                <img
+                  className="logo-mobile"
+                  src={require("../img/Mask group logo black.png")}
+                  alt=""
+                />
+              </Link>
+            </div>
+
             <div className="header">
               <div className="header1" id="headerincense">
                 TRẦM - NHANG
@@ -351,38 +360,138 @@ function Header(body) {
                   LƯ XÔNG TRẦM
                 </div>
               </a>
-              <div className="header1">HÀNG MỚI</div>
-              <a href="/knowledge" style={{ color: "#000000", margin: "auto" }}>
+              <Link to="/listproductnew" style={{ color: "#000000", margin: "auto" }}>
+                <div className="header1" id="listproductnew">
+                HÀNG MỚI
+                </div>
+              </Link>
+              <Link to="/knowledge" style={{ color: "#000000", margin: "auto" }}>
                 <div className="header1" id="headerknowledge">
                   KIẾN THỨC
                 </div>
-              </a>
+              </Link>
 
-              <a href="/aboutus" style={{ color: "#000000", margin: "auto" }}>
+              <Link to="/aboutus" style={{ color: "#000000", margin: "auto" }}>
                 <div className="header1" id="headeraboutus">
                   LIÊN HỆ
                 </div>
                 {/* <div className="header1" id="header201" ref={myref}>LIÊN HỆ</div> */}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
       </div>
       <div className="link-page-all">
-        <div className="title" style={{ marginLeft: "10%" }}>
-          Trang chủ
-        </div>
-        <img
-          src={require("../img/dashicons_arrow-left-alt2 (1).png")}
-          alt=""
-          style={{ width: "17px", height: "17px", marginLeft: "12px" }}
-        />
-        <div className="title" style={{ marginLeft: "12px" }}>
-          Trang sức
-        </div>
-        {/* <div class="title1" style={{margin:  "auto"}}>
+        {body.id == 0 && (
+          <>
+            <div className="title" style={{ marginLeft: "10%" }}>
+              Trang chủ
+            </div>
+            <img
+              src={require("../img/dashicons_arrow-left-alt2 (1).png")}
+              alt=""
+              style={{ width: "17px", height: "17px", marginLeft: "12px" }}
+            />
+            <div className="title" style={{ marginLeft: "12px" }}>
+              Trầm-Nhang
+            </div>
+          </>
+        )}
+        {body.id == 1 && (
+          <>
+            <div className="title" style={{ marginLeft: "10%" }}>
+              Trang chủ
+            </div>
+            <img
+              src={require("../img/dashicons_arrow-left-alt2 (1).png")}
+              alt=""
+              style={{ width: "17px", height: "17px", marginLeft: "12px" }}
+            />
+            <div className="title" style={{ marginLeft: "12px" }}>
+              Trang sức
+            </div>
+          </>
+        )}
+        {body.id == 2 && (
+          <>
+            <div className="title" style={{ marginLeft: "10%" }}>
+              Trang chủ
+            </div>
+            <img
+              src={require("../img/dashicons_arrow-left-alt2 (1).png")}
+              alt=""
+              style={{ width: "17px", height: "17px", marginLeft: "12px" }}
+            />
+            <div className="title" style={{ marginLeft: "12px" }}>
+              Tượng
+            </div>
+          </>
+        )}
+        {body.id == 3 && (
+          <>
+            <div className="title" style={{ marginLeft: "10%" }}>
+              Trang chủ
+            </div>
+            <img
+              src={require("../img/dashicons_arrow-left-alt2 (1).png")}
+              alt=""
+              style={{ width: "17px", height: "17px", marginLeft: "12px" }}
+            />
+            <div className="title" style={{ marginLeft: "12px" }}>
+              Lư xông trầm
+            </div>
+          </>
+        )}
+        {body.id == 4 && (
+          <>
+            <div className="title" style={{ marginLeft: "10%" }}>
+              Trang chủ
+            </div>
+            <img
+              src={require("../img/dashicons_arrow-left-alt2 (1).png")}
+              alt=""
+              style={{ width: "17px", height: "17px", marginLeft: "12px" }}
+            />
+            <div className="title" style={{ marginLeft: "12px" }}>
+              Kiến thức
+            </div>
+          </>
+        )}
+        {body.id == 5 && (
+          <>
+            <div className="title" style={{ marginLeft: "10%" }}>
+              Trang chủ
+            </div>
+            <img
+              src={require("../img/dashicons_arrow-left-alt2 (1).png")}
+              alt=""
+              style={{ width: "17px", height: "17px", marginLeft: "12px" }}
+            />
+            <div className="title" style={{ marginLeft: "12px" }}>
+              Liên hệ
+            </div>
+          </>
+        )}
+        {body.id == 6 && (
+          <div class="title1" style={{ margin: "auto" }}>
             CHECK OUT
-        </div> */}
+          </div>
+        )}
+        {body.id == 7 && (
+          <>
+            <div className="title" style={{ marginLeft: "10%" }}>
+              Trang chủ
+            </div>
+            <img
+              src={require("../img/dashicons_arrow-left-alt2 (1).png")}
+              alt=""
+              style={{ width: "17px", height: "17px", marginLeft: "12px" }}
+            />
+            <div className="title" style={{ marginLeft: "12px" }}>
+              Hàng mới
+            </div>
+          </>
+        )}
       </div>
     </>
   );
