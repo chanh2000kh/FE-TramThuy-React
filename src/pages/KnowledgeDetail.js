@@ -214,7 +214,7 @@ function KnowledgeDetail() {
         <div className="mobile" style={{ marginTop: "18px" }}>
           <div className="home-knowledge-for-product">
             <OwlCarousel
-              className="owl-carousel"
+              className="owl-theme owl-carousel"
               loop={true}
               margin={5}
               dots={false}

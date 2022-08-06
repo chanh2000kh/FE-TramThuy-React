@@ -507,7 +507,7 @@ function Home() {
       <div className="type-product-mobile">
         <div className="home-type-product2">
           <OwlCarousel
-            className="owl-carousel"
+            className="owl-theme owl-carousel"
             loop={true}
             margin={0}
             items={1.2}
@@ -656,7 +656,7 @@ function Home() {
 
           <div className="products1">
             <OwlCarousel
-              className="owl-carousel"
+              className="owl-theme owl-carousel"
               center={true}
               loop={true}
               margin={20}
@@ -1432,7 +1432,7 @@ function Home() {
         <div className="mobile">
           <div className="home-knowledge-for-product">
             <OwlCarousel
-              className="owl-carousel"
+              className="owl-theme owl-carousel"
               loop={true}
               margin={5}
               dots={false}

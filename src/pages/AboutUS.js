@@ -125,7 +125,7 @@ function AboutUS() {
         </div>
         <div className="list-new-product-about-us">
           <OwlCarousel
-            className="owl-carousel"
+            className="owl-theme owl-carousel"
             center={true}
             items={3.5}
             loop={true}
