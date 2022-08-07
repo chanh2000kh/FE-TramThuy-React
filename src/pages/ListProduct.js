@@ -5,7 +5,7 @@ import callApi from "../api/ApiSevice.js";
 import Pagination from "@mui/material/Pagination";
 import format from "../sevices/FormatPrice.js";
 import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 const jewels = [
   {
     id: "1",
@@ -62,6 +62,8 @@ function ListProduct() {
   const [productTypeId, setProductTypeId] = React.useState(
     GetURLParameter("id")
   );
+  const [fromBigToSmall, setFromBigToSmall] = React.useState(true);
+  const [name, setName] = React.useState("createdAt");
   const loadMinMax = () => {
     const rangeInput = document.querySelectorAll(".range-input input"),
       priceInput = document.querySelectorAll(".price-input input"),
@@ -137,6 +139,8 @@ function ListProduct() {
     ) {
       const data = {
         tag: tag,
+        name,
+        fromBigToSmall: fromBigToSmall == true ? "-1" : "1",
       };
       callApi(
         `api/product/getProductByTypeId1?id=${productTypeId}&limit=12&skip=${pageNumber}&min=${
@@ -161,12 +165,17 @@ function ListProduct() {
         .catch((err) => {
           console.log(err);
         });
-    } else
+    } else {
+      const data = {
+        name,
+        fromBigToSmall: fromBigToSmall == true ? "-1" : "1",
+      };
       callApi(
-        `api/product/getProductByTypeId?id=${productTypeId}&limit=12&skip=${pageNumber}&min=${
+        `api/product/getProductByTypeId1?id=${productTypeId}&limit=12&skip=${pageNumber}&min=${
           min * 1000
         }&max=${max * 1000}`,
-        "GET"
+        "POST",
+        data
       )
         .then((res) => {
           setListProduct(res.data.data.product);
@@ -176,7 +185,8 @@ function ListProduct() {
         .catch((err) => {
           console.log(err);
         });
-  }, [min, max, tag, pageNumber]);
+    }
+  }, [min, max, tag, pageNumber, name, fromBigToSmall]);
 
   const handleCheck = (id) => {
     setTag((prev) => {
@@ -507,24 +517,52 @@ function ListProduct() {
           </div>
           <div className="sort-product-list">
             <div className="sort">Sắp xếp:</div>
-            <select className="type-sort" id="type-sort" name="name-type-sort">
-              <option value="1">Mặc định </option>
-              <option value="2">Tên sản phẩm</option>
-              <option value="3">Thời gian</option>
-              <option value="4">Độ phổ biến</option>
+            <select
+              className="type-sort"
+              id="type-sort"
+              name="name-type-sort"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            >
+              <option value="name">Tên sản phẩm </option>
+              <option value="price">Giá</option>
+              <option value="createdAt">Thời gian</option>
+              <option value="numberOfSold">Độ phổ biến</option>
             </select>
-            <div className="btn-sort">
-              <i
-                className="fa-solid fa-arrow-up icon-btn-sort"
-                style={{
-                  width: "50%",
-                  display: "block",
-                  margin: "auto",
-                  textAlign: "center",
-                  marginTop: "12px",
-                }}
-              ></i>
-            </div>
+            {fromBigToSmall == true ? (
+              <div
+                className="btn-sort"
+                onClick={() => setFromBigToSmall(!fromBigToSmall)}
+                style={{ transform: "rotate(180deg)" }}
+              >
+                <i
+                  className="fa-solid fa-arrow-up icon-btn-sort"
+                  style={{
+                    width: "50%",
+                    display: "block",
+                    margin: "auto",
+                    textAlign: "center",
+                    marginTop: "12px",
+                  }}
+                ></i>
+              </div>
+            ) : (
+              <div
+                className="btn-sort"
+                onClick={() => setFromBigToSmall(!fromBigToSmall)}
+              >
+                <i
+                  className="fa-solid fa-arrow-up icon-btn-sort"
+                  style={{
+                    width: "50%",
+                    display: "block",
+                    margin: "auto",
+                    textAlign: "center",
+                    marginTop: "12px",
+                  }}
+                ></i>
+              </div>
+            )}
           </div>
           <div className="products-list">
             {listProduct.map((data) => {
@@ -535,7 +573,7 @@ function ListProduct() {
                     onClick={() => {
                       addCart(data._id);
                       window.alert("Thêm vào giỏ hàng thanh công!");
-                      navigate("/cart")
+                      navigate("/cart");
                     }}
                   >
                     Thêm vào giỏ hàng

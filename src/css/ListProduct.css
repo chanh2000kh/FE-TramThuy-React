@@ -38,7 +38,49 @@
 .header-all .header-all--data .user .search {
     margin-left: 50.38px;
 }
-
+.header-all .header-all--data .search_result {
+    position: absolute;
+    background-color: #fff;
+    width: 30%;
+    margin-top: 80px;
+    border-radius: 3px;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,.15);
+    max-height: 400px;
+    z-index: 2;
+    overflow: auto;
+    right: 20px;
+    padding: 5px;
+}
+.header-all .header-all--data .search_result li{
+    display: flex;
+    border-bottom: 1px solid #ACAFC3;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.header-all .header-all--data .search_result li img {
+    width: 30%;
+}
+.header-all .header-all--data .search_result li .list-product-seach-detail {
+    margin-left: 5px;
+}
+.header-all .header-all--data .search_result li .list-product-seach-detail .name{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 23px;
+    letter-spacing: 0.03em;
+    color: #000000;
+}
+.header-all .header-all--data .search_result li .list-product-seach-detail .price {
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 37px;
+    color: #DBAA53;
+}
 .header-all .header-all--data .user .trans {
     font-size: 30px;
     line-height: 36px;
@@ -776,7 +818,11 @@ input[type="range"]::-moz-range-thumb {
         right: 16px;
         top: 10px
     }
-
+    .header-all .header-all--data .search_result {
+        width: 100%;
+        right: 0;
+        margin-top: 50px;
+    }
     .header-all .header-all--data {
         top: 0;
     }

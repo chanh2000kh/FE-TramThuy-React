@@ -92,6 +92,10 @@ function ProductDetail() {
       });
     loadListReview();
   }, []);
+  const changeImg = (link)=>{
+    const log = document.getElementById("main-img");
+    log.src = `${link}`
+  }
   // --------------Add review
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -171,9 +175,9 @@ function ProductDetail() {
             <div className="column1-img">
               <img className="img" src={imgProduct[0]} alt="" id="main-img" />
               <div className="list-product-img-mobile">
-                <img src={imgProduct[0]} alt="" style={{ marginLeft: "0" }} />
+                <img src={imgProduct[0]} alt="" style={{ marginLeft: "0" }} onClick={()=>changeImg(imgProduct[0])}/>
                 {imgProduct.map((data, index) => {
-                  if (index > 0) return <img src={data} alt="" />;
+                  if (index > 0) return <img src={data} alt="" onClick={()=>changeImg(data)}/>;
                 })}
               </div>
               <div className="list-icons">
@@ -686,7 +690,7 @@ function ProductDetail() {
               >
                 {listProduct.map((data) => {
                   return (
-                    <Link to={"/productdetail?id=" + data._id}>
+                    <a href={"/productdetail?id=" + data._id}>
                       <div className="list-product-card">
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
@@ -694,7 +698,7 @@ function ProductDetail() {
                           {format(data.price)} VND
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   );
                 })}
               </OwlCarousel>
@@ -730,7 +734,7 @@ function ProductDetail() {
             >
               {listProduct.map((data) => {
                 return (
-                  <Link to={"/productdetail?id=" + data._id}>
+                  <a href={"/productdetail?id=" + data._id}>
                     <div className="list-product-card">
                       <img src={data.img[0]} alt="" />
                       <div className="title-product">{data.name}</div>
@@ -738,7 +742,7 @@ function ProductDetail() {
                         {format(data.price)} VND
                       </div>
                     </div>
-                  </Link>
+                  </a>
                 );
               })}
             </OwlCarousel>

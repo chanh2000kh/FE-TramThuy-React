@@ -1,8 +1,35 @@
 import "../css/ListProduct.css";
 import "../css/AboutUs.css";
+import React from "react";
 import { Link } from "react-router-dom";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import CloseIcon from "@mui/icons-material/Close";
+import callApi from "../api/ApiSevice.js";
+import SearchIcon from "@mui/icons-material/Search";
+import format from "../sevices/FormatPrice.js";
 function Header(body) {
+  const [valueSeach, setValueSeach] = React.useState("");
+  const [seach, setSeach] = React.useState(false);
+  const [listProduct, setListProduct] = React.useState([]);
+  useEffect(() => {
+    if (valueSeach != "")
+      callApi(
+        `api/product/searchProduct?limit=5&skip=1&name=${valueSeach}`,
+        "GET"
+      )
+        .then((res) => {
+          setListProduct(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    else setListProduct([]);
+  }, [valueSeach]);
   // const myref = useRef(null);
   useEffect(() => {
     // 👇️ use a ref (best)
@@ -243,7 +270,9 @@ function Header(body) {
               className="search"
               src={require("../img/eva_search-outline-black.png")}
               alt=""
+              onClick={() => setSeach(!seach)}
             />
+
             <img
               className="avata-user"
               src={require("../img/icons8_gender-neutral-user (1).png")}
@@ -258,6 +287,58 @@ function Header(body) {
               />
             </Link>
           </div>
+          {seach == true && (
+            <div className="search_result">
+              <FormControl variant="standard" style={{ width: "100%" }}>
+                <Input
+                  value={valueSeach}
+                  onChange={(event) => {
+                    setValueSeach(event.target.value);
+                  }}
+                  placeholder="Search"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => {
+                          setValueSeach("");
+                        }}
+                      >
+                        {valueSeach != "" && <CloseIcon />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => {
+                          setValueSeach("");
+                        }}
+                      >
+                        <SearchIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <ul>
+                {listProduct.map((data) => {
+                  return (
+                    <Link to={"/productdetail?id=" + data._id}>
+                      <li>
+                        <img src={data.img[0]} alt="" />
+                        <div className="list-product-seach-detail">
+                          <div className="name">{data.name}</div>
+                          <div className="price">{format(data.price)} VND</div>
+                        </div>
+                      </li>
+                    </Link>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
           <div className="">
             <label htmlFor="nav-mobile-input">
               <img
