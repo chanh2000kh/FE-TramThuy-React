@@ -168,7 +168,7 @@ function ProductDetail() {
         <div className="product-detail">
           <div className="product-detail-column1" style={{ marginTop: "10px" }}>
             {imgProduct.map((data) => {
-              return <img src={data} alt="" />;
+              return <img src={data} alt="" onClick={()=>changeImg(data)}/>;
             })}
           </div>
           <div className="product-detail-column2">
