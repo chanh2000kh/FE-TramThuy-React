@@ -127,15 +127,16 @@ function AboutUS() {
           <OwlCarousel
             className="owl-theme owl-carousel"
             center={true}
-            items={3.5}
+            items={2.7}
             loop={true}
             autoplay={true}
             autoplayTimeout={1500}
-            margin={30}
+            margin={40}
+            dots={false}
           >
             {listProductNew.map((data) => {
               return (
-                <div className="item card">
+                <div className="card">
                   <Link to={"/productdetail?id=" + data._id}>
                     <img src={data.img[0]} alt="" />
                     <div className="title-new-product">

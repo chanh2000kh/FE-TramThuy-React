@@ -600,6 +600,22 @@
     height: 350px;
     color: #000000;
 }
+.new-product-about-us .pc .list-product .home-btn-next-page{
+    border: 1px solid #555A77;
+    border-radius: 50%;
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+}
+.new-product-about-us .pc .list-product .home-btn-left {
+    transform: translateY(-550%);
+    left: -60px;
+}
+.new-product-about-us .pc .list-product .home-btn-right{
+    transform: translateY(-550%);
+    right: -60px;
+}
 .new-product-about-us .pc .list-product .list-product-card img{
     height: 70%
 }

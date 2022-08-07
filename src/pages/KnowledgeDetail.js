@@ -52,7 +52,7 @@ function KnowledgeDetail() {
   const LoadListKnowledge = () => {
     callApi(`api/knowledge/getKnowledgeAll?limit=3&skip=1`, "GET")
       .then((res) => {
-        setListKnowledge(res.data.data);
+        setListKnowledge(res.data.data.knowledge);
       })
       .catch((err) => {
         console.log(err);
@@ -70,7 +70,7 @@ function KnowledgeDetail() {
         <div className="main-knowledge-detail-column1">
           <div className="related-product-table">
             <div className="related-product-table-title">
-              Sản phẩm liên quan
+              Sản phẩm bán chạy
             </div>
             {listProduct.map((data) => {
               return (
@@ -160,7 +160,7 @@ function KnowledgeDetail() {
         style={{ marginTop: "60px" }}
       >
         <div className="title">
-          <h4 className="title-type-product">SẢN PHẨM LIÊN QUAN </h4>
+          <h4 className="title-type-product">SẢN PHẨM BÁN CHẠY </h4>
         </div>
         <div className="line">
           <div className="line-yellow"></div>

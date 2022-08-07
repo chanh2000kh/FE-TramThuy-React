@@ -5,13 +5,17 @@ import { useState, useEffect } from "react";
 import callApi from "../api/ApiSevice.js";
 import format from "../sevices/FormatPrice.js";
 import { Link } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
 function Knowledge() {
   const [listKnowledge, setListKnowledge] = React.useState([]);
   const [listProduct, setListProduct] = React.useState([]);
+  const [pageNumber, setPageNumber] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
   const LoadListKnowledge = () => {
     callApi(`api/knowledge/getKnowledgeAll?limit=7&skip=1`, "GET")
       .then((res) => {
-        setListKnowledge(res.data.data);
+        setListKnowledge(res.data.data.knowledge);
+        setTotalPages(res.data.data.pageNumber)
       })
       .catch((err) => {
         console.log(err);
@@ -112,13 +116,12 @@ function Knowledge() {
           </div>
 
           <ul className="number-page">
-            <div className="number" style={{ color: "#DBAA53" }}>
-              1
-            </div>
-            <div className="number">2</div>
-            <div className="number">3</div>
-            <div className="number">4</div>
-            <div className="next">next</div>
+          <Pagination
+              count={totalPages}
+              page={pageNumber}
+              onChange={(event, value) => setPageNumber(value)}
+              className="number"
+            />
           </ul>
         </div>
       </div>

@@ -43,10 +43,12 @@ function Header(body) {
           log.style.borderBottom = "3px solid #000000";
         }
         break;
-      case 5: {
-        const log = document.getElementById("headeraboutus");
-        log.style.borderBottom = "3px solid #000000";
-      }
+      case 5:
+        {
+          const log = document.getElementById("headeraboutus");
+          log.style.borderBottom = "3px solid #000000";
+        }
+        break;
       case 7: {
         const log = document.getElementById("listproductnew");
         log.style.borderBottom = "3px solid #000000";
@@ -360,12 +362,18 @@ function Header(body) {
                   LƯ XÔNG TRẦM
                 </div>
               </a>
-              <Link to="/listproductnew" style={{ color: "#000000", margin: "auto" }}>
+              <Link
+                to="/listproductnew"
+                style={{ color: "#000000", margin: "auto" }}
+              >
                 <div className="header1" id="listproductnew">
-                HÀNG MỚI
+                  HÀNG MỚI
                 </div>
               </Link>
-              <Link to="/knowledge" style={{ color: "#000000", margin: "auto" }}>
+              <Link
+                to="/knowledge"
+                style={{ color: "#000000", margin: "auto" }}
+              >
                 <div className="header1" id="headerknowledge">
                   KIẾN THỨC
                 </div>

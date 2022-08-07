@@ -15,7 +15,7 @@ import parse from "html-react-parser";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const GetURLParameter = (sParam) => {
   var sPageURL = window.location.search.substring(1);
@@ -169,7 +169,7 @@ function ProductDetail() {
           </div>
           <div className="product-detail-column2">
             <div className="column1-img">
-              <img className="img" src={imgProduct[0]} alt="" id="main-img"/>
+              <img className="img" src={imgProduct[0]} alt="" id="main-img" />
               <div className="list-product-img-mobile">
                 <img src={imgProduct[0]} alt="" style={{ marginLeft: "0" }} />
                 {imgProduct.map((data, index) => {
@@ -295,7 +295,7 @@ function ProductDetail() {
                     onClick={() => {
                       addCart();
                       window.alert("Thêm vào giỏ hàng thanh công!");
-                      navigate("/cart")
+                      navigate("/cart");
                     }}
                   >
                     Thêm vào giỏ hàng
@@ -606,9 +606,11 @@ function ProductDetail() {
                 <div className="title-save-review">
                   Lưu thông tin cho bình luận sau
                 </div>
-                
+
                 <label htmlFor="checkbox-write-review">
-                  <div className="btn-close-mobile"><div style={{margin: "auto"}}>ĐÓNG</div></div>
+                  <div className="btn-close-mobile">
+                    <div style={{ margin: "auto" }}>ĐÓNG</div>
+                  </div>
                 </label>
                 <label htmlFor="sent-review">
                   <button onClick={addReview}>GỬI</button>
@@ -714,14 +716,17 @@ function ProductDetail() {
         </div>
         <div className="pc">
           <div className="list-product">
-            <OwlCarousel
-              items={4}
+            <OwlCarousel    
               className="owl-theme owl-carousel"
+              items={4}
               loop={true}
               nav={true}
               dots={false}
               margin={5}
-              navText={["<div>1</div>", '<div style="color: #000000;">2</div>']}
+              navText={[
+                '<div class="home-btn-left home-btn-next-page"><img class="img-btn-left" src="./img/Vector-left.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+                '<div class="home-btn-right home-btn-next-page"><img class="img-btn-right" src="./img/Vector-right.png" alt="" style="margin: auto; padding: 7px; display: block;"></div>',
+              ]}
             >
               {listProduct.map((data) => {
                 return (

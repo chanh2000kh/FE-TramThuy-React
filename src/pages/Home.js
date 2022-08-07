@@ -33,7 +33,7 @@ function Home() {
   const LoadListKnowledge = () => {
     callApi(`api/knowledge/getKnowledgeAll?limit=3&skip=1`, "GET")
       .then((res) => {
-        setListKnowledge(res.data.data);
+        setListKnowledge(res.data.data.knowledge);
       })
       .catch((err) => {
         console.log(err);
@@ -512,6 +512,7 @@ function Home() {
             margin={0}
             items={1.2}
             center={false}
+            dots={false}
           >
             <div className="card">
               <img
@@ -662,6 +663,7 @@ function Home() {
               margin={20}
               items={1.4}
               autoplayTimeout={1500}
+              dots={false}
             >
               {listProductBestSold.map((data) => {
                 return (
@@ -697,10 +699,11 @@ function Home() {
               margin={10}
               autoplay={true}
               autoplayTimeout={1500}
+              dots={false}
             >
               {listProductNew.map((data) => {
                 return (
-                  <div className="item card">
+                  <div className="card">
                     <Link to={"/productdetail?id=" + data._id}>
                       <img src={data.img[0]} alt="" />
                       <div className="title-new-product">
@@ -723,10 +726,11 @@ function Home() {
               items={1.4}
               autoplay={true}
               autoplayTimeout={1500}
+              dots={false}
             >
               {listProductNew.map((data) => {
                 return (
-                  <div className="item card">
+                  <div className="card">
                     <Link to={"/productdetail?id=" + data._id}>
                       <img src={data.img[0]} alt="" />
                       <div className="title-new-product">
@@ -794,7 +798,7 @@ function Home() {
               {jewels.map((data, index) => {
                 if (index < 4 && jewelsNext == true)
                   return (
-                    <div className="item list-product-card">
+                    <div className="list-product-card">
                       <Link to={"/productdetail?id=" + data._id}>
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
@@ -807,7 +811,7 @@ function Home() {
 
                 if (index > 3 && jewelsNext == false)
                   return (
-                    <div className="item list-product-card">
+                    <div className="list-product-card">
                       <img src={data.img[0]} alt="" />
                       <div className="title-product">{data.name}</div>
                       <div className="price-product">
@@ -893,7 +897,7 @@ function Home() {
               {incense.map((data, i) => {
                 if (i < 4 && incenseNext == true)
                   return (
-                    <div className="item list-product-card">
+                    <div className="list-product-card">
                       <Link to={"/productdetail?id=" + data._id}>
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
@@ -1042,7 +1046,7 @@ function Home() {
               {urn.map((data, i) => {
                 if (i < 4 && urnNext == true)
                   return (
-                    <div className="item list-product-card">
+                    <div className="list-product-card">
                       <Link to={"/productdetail?id=" + data._id}>
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
@@ -1055,7 +1059,7 @@ function Home() {
 
                 if (i > 3 && urnNext == false)
                   return (
-                    <div className="item list-product-card">
+                    <div className="list-product-card">
                       <Link to={"/productdetail?id=" + data._id}>
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>
@@ -1155,7 +1159,7 @@ function Home() {
               {statue.map((data, index) => {
                 if (index < 4 && statueNext == true)
                   return (
-                    <div className="item list-product-card">
+                    <div className="list-product-card">
                       <Link to={"/productdetail?id=" + data._id}>
                         <img src={data.img[0]} alt="" />
                         <div className="title-product">{data.name}</div>

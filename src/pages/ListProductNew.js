@@ -11,7 +11,7 @@ function ListProductNew() {
 
   const [listProductNew, setListProductNew] = React.useState([]);
   const loadListProductNew = () => {
-    callApi(`api/product/getProductAll?limit=6&skip=1`, "GET")
+    callApi(`api/product/getProductAll?limit=9&skip=1`, "GET")
       .then((res) => {
         setListProductNew(res.data.data);
       })
@@ -60,33 +60,6 @@ function ListProductNew() {
       />
       <div className="main-all">
         <div className="colum-list-products" style={{width: "100%"}}>
-          <div className="amount-products">297 sản phẩm</div>
-          <img
-            className="icons_settings"
-            src={require("../img/akar-icons_settings-horizontal.png")}
-            alt=""
-          />
-          <div className="sort-product-list">
-            <div className="sort">Sắp xếp:</div>
-            <select className="type-sort" id="type-sort" name="name-type-sort">
-              <option value="1">Mặc định </option>
-              <option value="2">Tên sản phẩm</option>
-              <option value="3">Thời gian</option>
-              <option value="4">Độ phổ biến</option>
-            </select>
-            <div className="btn-sort">
-              <i
-                className="fa-solid fa-arrow-up icon-btn-sort"
-                style={{
-                  width: "50%",
-                  display: "block",
-                  margin: "auto",
-                  textAlign: "center",
-                  marginTop: "12px",
-                }}
-              ></i>
-            </div>
-          </div>
           <div className="products-list">
             {listProductNew.map((data) => {
               return (
@@ -122,7 +95,7 @@ function ListProductNew() {
         alt=""
         style={{
           position: "absolute",
-          transform: "translateY(-100%)",
+          transform: "translateY(-80%)",
           width: "30%",
         }}
       />
