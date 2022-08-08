@@ -149,6 +149,17 @@ function ProductDetail() {
       localStorage.setItem("listCart", JSON.stringify(newListCart));
     }
   };
+  const buyNow = ()=>{
+    const newdata = {
+      idProduct: product._id,
+      amount: amount,
+      check: check,
+    };
+    var newListCart =[]
+    newListCart.push(newdata);
+    localStorage.setItem("listCart", JSON.stringify(newListCart));
+    navigate("/paydetail")
+  }
   return (
     <>
       <Header></Header>
@@ -307,8 +318,8 @@ function ProductDetail() {
                 </div>
                 <div className="line"></div>
                 <div className="buy-call">
-                  <button className="btn-buy">MUA NGAY</button>
-                  <button className="btn-call">GỌI ĐẶT HÀNG</button>
+                  <button className="btn-buy" onClick={()=>buyNow()}>MUA NGAY</button>
+                  <button className="btn-call" onClick={()=>window.open('tel:0975724427')}>GỌI ĐẶT HÀNG</button>
                 </div>
               </div>
               <div className="icons">

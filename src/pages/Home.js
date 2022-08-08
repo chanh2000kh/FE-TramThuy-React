@@ -10,6 +10,13 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import Rating from "@mui/material/Rating";
 import { FlashOnRounded } from "@mui/icons-material";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
 function Home() {
   const [incense, setIncense] = React.useState([]);
   const [incenseNext, setIncenseNext] = React.useState(true);
@@ -19,6 +26,24 @@ function Home() {
   const [statueNext, setStatueNext] = React.useState(true);
   const [urn, setUrn] = React.useState([]);
   const [urnNext, setUrnNext] = React.useState(true);
+  const [valueSeach, setValueSeach] = React.useState("");
+  const [seach, setSeach] = React.useState(false);
+  const [listProduct, setListProduct] = React.useState([]);
+  useEffect(() => {
+    if (valueSeach != "")
+      callApi(
+        `api/product/searchProduct?limit=5&skip=1&name=${valueSeach}`,
+        "GET"
+      )
+        .then((res) => {
+          setListProduct(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    else setListProduct([]);
+  }, [valueSeach]);
+
   const [listProductBestSold, setListProductBestSold] = React.useState([]);
   const loadListProductBestSold = () => {
     callApi(`api/product/getProductBestSell?limit=4&skip=1&increase=-1`, "GET")
@@ -137,6 +162,17 @@ function Home() {
       listHomeGallery[i].classList.add("home-gallery-item-2");
       listHomeGallery[0].classList.add("home-gallery-item-3");
     }
+  };
+  const changeImg = (i, imgLink) => {
+    const img = document.getElementById("img-mobile"),
+      listBtn = document.querySelectorAll(".header-carousel"),
+      titleChange = document.getElementById("title-change");
+    listBtn.forEach((item) => {
+      item.classList.remove("active");
+    });
+    const arrayTitle = ["Trầm Nhang", "Trang Sức", "Tượng", "Lư Xông Trầm"]
+    listBtn[i].classList.add("active");
+    titleChange.innerHTML = `${arrayTitle[i]}`
   };
   return (
     <>
@@ -315,6 +351,7 @@ function Home() {
       </div>
       <div className="home-header">
         <img
+          id="img-mobile"
           className="img-mobile"
           src={require("../img/Kungyokudo_Incense_mood-styling_ITSUMO_st.jpg")}
           alt=""
@@ -348,6 +385,7 @@ function Home() {
               className="search"
               src={require("../img/eva_search-outline.png")}
               alt=""
+              onClick={() => setSeach(!seach)}
             />
             <img
               className="avata-user"
@@ -363,6 +401,58 @@ function Home() {
               />
             </Link>
           </div>
+          {seach == true && (
+            <div className="search_result">
+              <FormControl variant="standard" style={{ width: "100%" }}>
+                <Input
+                  value={valueSeach}
+                  onChange={(event) => {
+                    setValueSeach(event.target.value);
+                  }}
+                  placeholder="Search"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => {
+                          setValueSeach("");
+                        }}
+                      >
+                        {valueSeach != "" && <CloseIcon />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => {
+                          setValueSeach("");
+                        }}
+                      >
+                        <SearchIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <ul>
+                {listProduct.map((data) => {
+                  return (
+                    <a href={"/productdetail?id=" + data._id}>
+                      <li>
+                        <img src={data.img[0]} alt="" />
+                        <div className="list-product-seach-detail">
+                          <div className="name">{data.name}</div>
+                          <div className="price">{format(data.price)} VND</div>
+                        </div>
+                      </li>
+                    </a>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
           <div className="">
             <img
               className="logo"
@@ -373,7 +463,7 @@ function Home() {
               <div className="header1" style={{ zIndex: 3 }}>
                 <div>TRẦM - NHANG</div>
                 <ul className="sub-menu">
-                  <a 
+                  <a
                     href="/listproduct?id=62cd7c7a0d2a3b3e78ed4438&tag=1"
                     style={{ color: "#7C82A1" }}
                   >
@@ -454,18 +544,34 @@ function Home() {
             <div className="line"></div>
           </div>
           <div className="link-img">
-            <p className="title">Nhang Trầm</p>
+            <p className="title" id="title-change">Nhang Trầm</p>
             <button className="btn">XEM THÊM</button>
           </div>
           <ol className="carousel-indicators">
             <li
               data-target="#header-carousel"
               data-slide-to="0"
-              className="active"
+              className="header-carousel active"
+              onClick={()=>changeImg(0) }
             ></li>
-            <li data-target="#header-carousel" data-slide-to="1"></li>
-            <li data-target="#header-carousel" data-slide-to="2"></li>
-            <li data-target="#header-carousel" data-slide-to="3"></li>
+            <li
+              className="header-carousel"
+              data-target="#header-carousel"
+              data-slide-to="1"
+              onClick={()=>changeImg(1) }
+            ></li>
+            <li
+              className="header-carousel"
+              data-target="#header-carousel"
+              data-slide-to="2"
+              onClick={()=>changeImg(2) }
+            ></li>
+            <li
+              className="header-carousel"
+              data-target="#header-carousel"
+              data-slide-to="3"
+              onClick={()=>changeImg(3) }
+            ></li>
           </ol>
           <div className="cloud2">
             <img src={require("../img/Asset 4@2x 2.png")} alt="" />
