@@ -325,7 +325,7 @@ function Header(body) {
               <ul>
                 {listProduct.map((data) => {
                   return (
-                    <Link to={"/productdetail?id=" + data._id}>
+                    <a href={"/productdetail?id=" + data._id}>
                       <li>
                         <img src={data.img[0]} alt="" />
                         <div className="list-product-seach-detail">
@@ -333,7 +333,7 @@ function Header(body) {
                           <div className="price">{format(data.price)} VND</div>
                         </div>
                       </li>
-                    </Link>
+                    </a>
                   );
                 })}
               </ul>
